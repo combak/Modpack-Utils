@@ -1,0 +1,16 @@
+[
+{
+  "modid": "modpackutils",
+  "name": "Modpack-Utils",
+  "description": "",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["DerOli82"],
+  "credits": "Greetings to the BakermanLP Community.",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
