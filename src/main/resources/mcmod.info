@@ -1,8 +1,8 @@
 [
 {
   "modid": "modpackutils",
-  "name": "Modpack-Utils",
-  "description": "",
+  "name": "ComBak Modpack Utils",
+  "description": "Useful Modpack Stuff.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
