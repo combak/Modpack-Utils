@@ -14,6 +14,7 @@ import de.alaoli.games.minecraft.mods.modpackutils.client.command.MPUCommandGrou
 import de.alaoli.games.minecraft.mods.modpackutils.client.event.handler.ChangelogEventHandler;
 import de.alaoli.games.minecraft.mods.modpackutils.client.event.handler.github.GithubEventHandler;
 import de.alaoli.games.minecraft.mods.modpackutils.common.config.ChangelogSection;
+import de.alaoli.games.minecraft.mods.modpackutils.common.config.CommandSection;
 import de.alaoli.games.minecraft.mods.modpackutils.common.config.GithubWebserviceSection;
 import de.alaoli.games.minecraft.mods.modpackutils.common.config.WebservicesSection;
 import net.minecraftforge.client.ClientCommandHandler;
@@ -45,6 +46,7 @@ public class ModpackUtils implements Initialize
 			.add( event.getModConfigurationDirectory().toString() )
 			.add( MODID + ".json" );
 		Config config = new Config();
+		config.registerSection( new CommandSection() );
 		config.registerSection( new ChangelogSection() );
 		config.registerSection( new WebservicesSection() );
 		config.registerSection( new GithubWebserviceSection() );
