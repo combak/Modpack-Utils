@@ -1,4 +1,4 @@
-package de.alaoli.games.minecraft.mods.modpackutils.config;
+package de.alaoli.games.minecraft.mods.modpackutils.common.config;
 
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;

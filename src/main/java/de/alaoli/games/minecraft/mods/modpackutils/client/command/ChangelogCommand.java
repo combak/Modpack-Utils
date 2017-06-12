@@ -1,19 +1,12 @@
-package de.alaoli.games.minecraft.mods.modpackutils.command;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.List;
+package de.alaoli.games.minecraft.mods.modpackutils.client.command;
 
 import de.alaoli.games.minecraft.mods.lib.common.command.Arguments;
 import de.alaoli.games.minecraft.mods.lib.common.command.Command;
-import de.alaoli.games.minecraft.mods.lib.common.command.CommandException;
-import de.alaoli.games.minecraft.mods.modpackutils.config.ChangelogSection;
+import de.alaoli.games.minecraft.mods.modpackutils.client.event.OpenChangelogGuiEvent;
+import jline.internal.Log;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.common.MinecraftForge;
 
 public class ChangelogCommand extends Command
 {
@@ -23,9 +16,9 @@ public class ChangelogCommand extends Command
 	
 	}
 
-	/********************************************************************************
+	/******************************************************************************************
 	 * Method - Implement ICommand
-	 ********************************************************************************/
+	 ******************************************************************************************/
 	
 	@Override
 	public String getCommandName() 
@@ -39,14 +32,17 @@ public class ChangelogCommand extends Command
 		return true;
 	}
 	
-	/********************************************************************************
+	/******************************************************************************************
 	 * Method - Implement Command
-	 ********************************************************************************/
+	 ******************************************************************************************/
 	
 	@Override
 	public void processCommand( Arguments args )
 	{
-		File file = new File( ChangelogSection.file );
+		Log.info( "bla" );
+		MinecraftForge.EVENT_BUS.post( new OpenChangelogGuiEvent() );
+		/*
+		
 		
 		if( file.exists() )
 		{
@@ -70,7 +66,7 @@ public class ChangelogCommand extends Command
 		{
 			args.sender.addChatMessage( new TextComponentString( "No changelog found." ));
 		}
-		
+		*/
 	}
 
 }
