@@ -15,8 +15,8 @@ import de.alaoli.games.minecraft.mods.modpackutils.client.event.handler.Changelo
 import de.alaoli.games.minecraft.mods.modpackutils.client.event.handler.github.GithubEventHandler;
 import de.alaoli.games.minecraft.mods.modpackutils.common.config.ChangelogSection;
 import de.alaoli.games.minecraft.mods.modpackutils.common.config.CommandSection;
-import de.alaoli.games.minecraft.mods.modpackutils.common.config.GithubWebserviceSection;
 import de.alaoli.games.minecraft.mods.modpackutils.common.config.WebservicesSection;
+import de.alaoli.games.minecraft.mods.modpackutils.common.config.webservices.GithubSection;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -42,14 +42,14 @@ public class ModpackUtils implements Initialize
     @EventHandler 
 	public void preInit( FMLPreInitializationEvent event ) throws IOException, DataException 
 	{
+		
 		StringJoiner file  = new StringJoiner( File.separator)
 			.add( event.getModConfigurationDirectory().toString() )
 			.add( MODID + ".json" );
 		Config config = new Config();
-		config.registerSection( new CommandSection() );
-		config.registerSection( new ChangelogSection() );
-		config.registerSection( new WebservicesSection() );
-		config.registerSection( new GithubWebserviceSection() );
+		config.addNode( new ChangelogSection() );
+		config.addNode( new CommandSection() );
+		config.addNode( new WebservicesSection() );
 		config.setSavePath( file.toString() );
 		config.load();
 		config.cleanup();
@@ -67,7 +67,7 @@ public class ModpackUtils implements Initialize
 			commands.add( new ChangelogCommand( commands ) );
 		}
 		
-		if( WebservicesSection.enabled && GithubWebserviceSection.enabled )
+		if( WebservicesSection.enabled && GithubSection.enabled )
 		{
 			GithubEventHandler.register();
 			commands.add( new BugReportCommand( commands ) );

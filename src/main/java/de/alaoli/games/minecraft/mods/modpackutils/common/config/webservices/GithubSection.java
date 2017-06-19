@@ -1,4 +1,4 @@
-package de.alaoli.games.minecraft.mods.modpackutils.common.config;
+package de.alaoli.games.minecraft.mods.modpackutils.common.config.webservices;
 
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
@@ -6,21 +6,21 @@ import com.eclipsesource.json.JsonValue;
 import de.alaoli.games.minecraft.mods.lib.common.config.Section;
 import de.alaoli.games.minecraft.mods.lib.common.data.DataException;
 
-public class ChangelogSection implements Section 
+public class GithubSection implements Section 
 {
     /******************************************************************************************
      * Attribute
      ******************************************************************************************/
 	
 	/**
-	 * Enables changelog view
+	 * Enables github webservice function (requires modpack-webservice server)
 	 */
-	public static boolean enabled = true;
+	public static boolean enabled = false;
 	
 	/**
-	 * Changelog file name.
+	 * Repository name
 	 */
-	public static String file = "CHANGELOG.md";
+	public static String repository = "";
 	
     /******************************************************************************************
      * Method - Implements Section
@@ -29,7 +29,7 @@ public class ChangelogSection implements Section
 	@Override
 	public String getNodeName() 
 	{
-		return "changelog";
+		return "github";
 	}
 
     /******************************************************************************************
@@ -42,22 +42,22 @@ public class ChangelogSection implements Section
 	@Override
 	public void deserialize( JsonValue json ) throws DataException 
 	{
-		if( !json.isObject() ) { throw new DataException( "ChangelogSection isn't a JsonObject." ); }
+		if( !json.isObject() ) { throw new DataException( "Webservice - Github isn't a JsonObject." ); }
 		
 		JsonObject obj = json.asObject();
 		
 		if( obj.get( "enabled" ) != null )
 		{
-			if( !obj.get( "enabled" ).isBoolean() ) { throw new DataException( "ChangelogSection 'enabled' isn't an boolean." ); }
+			if( !obj.get( "enabled" ).isBoolean() ) { throw new DataException( "Webservice - Github 'enabled' isn't an boolean." ); }
 			
 			enabled = obj.get( "enabled" ).asBoolean();
 		}
 		
-		if( obj.get( "file" ) != null )
+		if( obj.get( "repository" ) != null )
 		{
-			if( !obj.get( "file" ).isString() ) { throw new DataException( "ChangelogSection 'file' isn't a string." ); }
+			if( !obj.get( "repository" ).isString() ) { throw new DataException( "Webservice - Github 'repository' isn't a string." ); }
 			
-			file = obj.get( "file" ).asString();
+			repository = obj.get( "repository" ).asString();
 		}
 	}
 }

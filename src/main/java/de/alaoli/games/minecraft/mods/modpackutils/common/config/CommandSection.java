@@ -23,16 +23,16 @@ public class CommandSection implements Section
 	/**
 	 * Changelog file name.
 	 */
-	public static List commandAliases = Arrays.asList( new String[] {"mp","modpack" } );
+	public static List commandAliases = Arrays.asList( new String[] { "mp","modpack" } );
 	
     /******************************************************************************************
      * Method - Implements Section
      ******************************************************************************************/
 	
 	@Override
-	public String getSectionName() 
+	public String getNodeName() 
 	{
-		return "Command";
+		return "command";
 	}
 
     /******************************************************************************************
