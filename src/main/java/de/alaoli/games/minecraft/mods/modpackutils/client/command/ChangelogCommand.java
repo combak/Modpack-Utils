@@ -2,6 +2,7 @@ package de.alaoli.games.minecraft.mods.modpackutils.client.command;
 
 import de.alaoli.games.minecraft.mods.lib.common.command.Arguments;
 import de.alaoli.games.minecraft.mods.lib.common.command.Command;
+import de.alaoli.games.minecraft.mods.lib.common.command.CommandNode;
 import de.alaoli.games.minecraft.mods.modpackutils.client.event.OpenChangelogGuiEvent;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
@@ -9,7 +10,7 @@ import net.minecraftforge.common.MinecraftForge;
 
 public class ChangelogCommand extends Command
 {
-	public ChangelogCommand( Command parent )
+	public ChangelogCommand( CommandNode parent )
 	{
 		super( parent );
 	
@@ -36,7 +37,7 @@ public class ChangelogCommand extends Command
 	 ******************************************************************************************/
 	
 	@Override
-	public void processCommand( Arguments args )
+	public void execute( Arguments args )
 	{
 		MinecraftForge.EVENT_BUS.post( new OpenChangelogGuiEvent() );
 	}

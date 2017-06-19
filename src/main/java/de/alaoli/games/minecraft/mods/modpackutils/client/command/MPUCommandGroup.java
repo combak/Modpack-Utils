@@ -28,7 +28,6 @@ public class MPUCommandGroup extends CommandGroup
 		return CommandSection.command;
 	}
 
-	
 	@Override
 	public List getCommandAliases() 
 	{

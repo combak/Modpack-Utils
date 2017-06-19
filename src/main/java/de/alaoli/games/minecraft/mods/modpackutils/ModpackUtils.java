@@ -64,13 +64,13 @@ public class ModpackUtils implements Initialize
 		if( ChangelogSection.enabled )
 		{
 			ChangelogEventHandler.register();
-			commands.add( new ChangelogCommand( commands ) );
+			commands.addNode( new ChangelogCommand( commands ) );
 		}
 		
 		if( WebservicesSection.enabled && GithubSection.enabled )
 		{
 			GithubEventHandler.register();
-			commands.add( new BugReportCommand( commands ) );
+			commands.addNode( new BugReportCommand( commands ) );
 			
 		}
 		ClientCommandHandler.instance.registerCommand( commands );

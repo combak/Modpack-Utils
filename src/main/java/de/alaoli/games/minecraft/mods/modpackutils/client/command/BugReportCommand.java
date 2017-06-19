@@ -2,6 +2,7 @@ package de.alaoli.games.minecraft.mods.modpackutils.client.command;
 
 import de.alaoli.games.minecraft.mods.lib.common.command.Arguments;
 import de.alaoli.games.minecraft.mods.lib.common.command.Command;
+import de.alaoli.games.minecraft.mods.lib.common.command.CommandNode;
 import de.alaoli.games.minecraft.mods.modpackutils.client.event.github.OpenIssueGuiEvent;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,7 +11,7 @@ import net.minecraftforge.common.MinecraftForge;
 
 public class BugReportCommand extends Command
 {
-	public BugReportCommand( Command parent )
+	public BugReportCommand( CommandNode parent )
 	{
 		super( parent );
 	
@@ -32,18 +33,12 @@ public class BugReportCommand extends Command
 		return true;
 	}
 	
-	@Override
-	public String getCommandUsage( ICommandSender sender ) 
-	{
-		return super.getCommandUsage( sender ) + " <title> <description>";
-	}
-	
 	/********************************************************************************
 	 * Method - Implement Command
 	 ********************************************************************************/
 	
 	@Override
-	public void processCommand( Arguments args )
+	public void execute( Arguments args )
 	{
 		EntityPlayer player = (args.senderIsEntityPlayer) ? (EntityPlayer)args.sender : null;
 		
