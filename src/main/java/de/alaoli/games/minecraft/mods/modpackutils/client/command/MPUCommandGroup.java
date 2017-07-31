@@ -23,15 +23,15 @@ public class MPUCommandGroup extends CommandGroup
 	 ********************************************************************************/
 	
 	@Override
-	public String getCommandName() 
+	public String getName() 
 	{
 		return CommandSection.command;
 	}
 
 	@Override
-	public List getCommandAliases() 
+	public List getAliases() 
 	{
-		List list = super.getCommandAliases();
+		List list = super.getAliases();
 		list.addAll( CommandSection.commandAliases );
 		
 		return list;

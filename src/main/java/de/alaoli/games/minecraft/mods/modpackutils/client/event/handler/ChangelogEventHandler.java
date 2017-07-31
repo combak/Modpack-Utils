@@ -51,7 +51,7 @@ public class ChangelogEventHandler
 		if( ( this.event != null ) &&
 			( event.phase == TickEvent.Phase.START ) &&
 			( !Minecraft.getMinecraft().isGamePaused() ) && 
-			( Minecraft.getMinecraft().thePlayer != null ) )
+			( Minecraft.getMinecraft().player != null ) )
 		{
 			Minecraft.getMinecraft().displayGuiScreen( new ChangelogScreen() );
 			this.event = null;

@@ -77,7 +77,7 @@ public class GithubEventHandler
 				break;
 				
 			case IssueCallback.STATE_FAILED :
-				event.callback.player.addChatComponentMessage( new TextComponentString( event.callback.getException().getMessage() ) );
+				event.callback.player.sendMessage( new TextComponentString( event.callback.getException().getMessage() ) );
 				break;
 				
 			case IssueCallback.STATE_CANCELLED :
@@ -105,7 +105,7 @@ public class GithubEventHandler
 		if( ( this.event != null ) &&
 			( event.phase == TickEvent.Phase.START ) &&
 			( !Minecraft.getMinecraft().isGamePaused() ) && 
-			( Minecraft.getMinecraft().thePlayer != null ) )
+			( Minecraft.getMinecraft().player != null ) )
 		{
 			Minecraft.getMinecraft().displayGuiScreen( new IssueGui( this.event.player, this.pendingIssue ) );
 			this.event = null;

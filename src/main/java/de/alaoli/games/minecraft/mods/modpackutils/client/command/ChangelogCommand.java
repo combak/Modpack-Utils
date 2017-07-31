@@ -21,7 +21,7 @@ public class ChangelogCommand extends Command
 	 ******************************************************************************************/
 	
 	@Override
-	public String getCommandName() 
+	public String getName() 
 	{
 		return "changelog";
 	}

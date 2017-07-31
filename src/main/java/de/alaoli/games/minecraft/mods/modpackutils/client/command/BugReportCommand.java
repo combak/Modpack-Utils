@@ -22,7 +22,7 @@ public class BugReportCommand extends Command
 	 ********************************************************************************/
 	
 	@Override
-	public String getCommandName() 
+	public String getName() 
 	{
 		return "bugreport";
 	}
