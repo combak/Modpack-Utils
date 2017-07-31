@@ -1,7 +1,7 @@
 package de.alaoli.games.minecraft.mods.modpackutils.client.event.handler;
 
 import de.alaoli.games.minecraft.mods.modpackutils.client.event.OpenChangelogGuiEvent;
-import de.alaoli.games.minecraft.mods.modpackutils.client.gui.ChangelogGui;
+import de.alaoli.games.minecraft.mods.modpackutils.client.ui.ChangelogScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -53,7 +53,7 @@ public class ChangelogEventHandler
 			( !Minecraft.getMinecraft().isGamePaused() ) && 
 			( Minecraft.getMinecraft().thePlayer != null ) )
 		{
-			Minecraft.getMinecraft().displayGuiScreen( new ChangelogGui() );
+			Minecraft.getMinecraft().displayGuiScreen( new ChangelogScreen() );
 			this.event = null;
 		}
 		

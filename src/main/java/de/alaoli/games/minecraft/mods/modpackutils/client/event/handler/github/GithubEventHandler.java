@@ -9,8 +9,8 @@ import com.mashape.unirest.http.Unirest;
 import de.alaoli.games.minecraft.mods.modpackutils.client.event.github.IssueCallbackEvent;
 import de.alaoli.games.minecraft.mods.modpackutils.client.event.github.OpenIssueGuiEvent;
 import de.alaoli.games.minecraft.mods.modpackutils.client.event.github.SendIssueEvent;
-import de.alaoli.games.minecraft.mods.modpackutils.client.gui.github.IssueGui;
 import de.alaoli.games.minecraft.mods.modpackutils.client.network.github.IssueCallback;
+import de.alaoli.games.minecraft.mods.modpackutils.client.ui.github.IssueGui;
 import de.alaoli.games.minecraft.mods.modpackutils.common.config.WebservicesSection;
 import de.alaoli.games.minecraft.mods.modpackutils.common.data.github.Issue;
 import net.minecraft.client.Minecraft;
@@ -107,10 +107,7 @@ public class GithubEventHandler
 			( !Minecraft.getMinecraft().isGamePaused() ) && 
 			( Minecraft.getMinecraft().thePlayer != null ) )
 		{
-			IssueGui gui = new IssueGui();
-			gui.setPlayer( this.event.player );
-			gui.setPendingIssue( this.pendingIssue );
-			Minecraft.getMinecraft().displayGuiScreen( gui );
+			Minecraft.getMinecraft().displayGuiScreen( new IssueGui( this.event.player, this.pendingIssue ) );
 			this.event = null;
 		}
 		

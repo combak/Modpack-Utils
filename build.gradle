@@ -48,12 +48,13 @@ configurations {
 }
 
 dependencies {
-    compile "com.eclipsesource.minimal-json:minimal-json:0.9.+"
-    //compile project(":common-library")
+    compile project(":common-library")
+    compile "com.eclipsesource.minimal-json:minimal-json:${config.minimaljson.version}"
+    shade "com.mashape.unirest:unirest-java:${config.unirest.version}"
 }
 
 minecraft {
-    mappings = "snapshot_20161111"
+    mappings = "${config.forge.mappings}"
     version = "${config.forge.version}"
     runDir = "run"
 }
@@ -89,4 +90,9 @@ processResources
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
+}
+
+jar {
+    version = project.version
+    configurations.shade.copyRecursive().setTransitive(false).each { artifact -> from (zipTree(artifact)) }
 }
