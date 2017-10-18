@@ -1,0 +1,7 @@
+modpackutils:gui.changelog.title=Änderungsprotokoll
+modpackutils:gui.changelog.notfound=Änderungsprotokoll nicht gefunden
+
+modpackutils:gui.bugreport.title=Fehlerbericht
+modpackutils:gui.bugreport.label.name=Name: 
+modpackutils:gui.bugreport.label.title=Titel: 
+modpackutils:gui.bugreport.label.description=Beschreibung: 

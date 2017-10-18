@@ -1,0 +1,7 @@
+modpackutils:gui.changelog.title=Changelog
+modpackutils:gui.changelog.notfound=Changelog not found
+
+modpackutils:gui.bugreport.title=Bug Report
+modpackutils:gui.bugreport.label.name=Name: 
+modpackutils:gui.bugreport.label.title=Title: 
+modpackutils:gui.bugreport.label.description=Description:  
