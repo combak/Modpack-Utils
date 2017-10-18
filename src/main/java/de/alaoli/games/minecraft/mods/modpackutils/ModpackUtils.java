@@ -1,15 +1,9 @@
 package de.alaoli.games.minecraft.mods.modpackutils;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.StringJoiner;
-
-import de.alaoli.games.minecraft.mods.lib.common.Config;
 import de.alaoli.games.minecraft.mods.lib.common.Initialize;
 import de.alaoli.games.minecraft.mods.lib.common.data.DataException;
-import de.alaoli.games.minecraft.mods.modpackutils.common.config.ChangelogSection;
-import de.alaoli.games.minecraft.mods.modpackutils.common.config.CommandSection;
-import de.alaoli.games.minecraft.mods.modpackutils.common.config.WebservicesSection;
+import de.alaoli.games.minecraft.mods.modpackutils.proxy.CommonProxy;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -31,7 +25,7 @@ public class ModpackUtils implements Initialize
 		clientSide = "de.alaoli.games.minecraft.mods.modpackutils.proxy.ClientProxy",
 		serverSide = "de.alaoli.games.minecraft.mods.modpackutils.proxy.ServerProxy"
 	)
-    public static Initialize proxy;
+    public static CommonProxy proxy;
     
     /******************************************************************************************
      * Method - Implements Initialize
@@ -41,17 +35,6 @@ public class ModpackUtils implements Initialize
     @EventHandler 
 	public void preInit( FMLPreInitializationEvent event ) throws IOException, DataException 
 	{
-		StringJoiner file  = new StringJoiner( File.separator)
-			.add( event.getModConfigurationDirectory().toString() )
-			.add( MODID + ".json" );
-		Config config = new Config();
-		config.addNode( new ChangelogSection() );
-		config.addNode( new CommandSection() );
-		config.addNode( new WebservicesSection() );
-		config.setSavePath( file.toString() );
-		config.load();
-		config.cleanup();
-		
 		proxy.preInit( event );
 	}
 	
@@ -63,6 +46,7 @@ public class ModpackUtils implements Initialize
 	}
 	
 	@Override
+	@EventHandler 
 	public void postInit( FMLPostInitializationEvent event ) throws IOException, DataException 
 	{
 		proxy.postInit( event );
