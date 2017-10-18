@@ -1,5 +1,7 @@
 package de.alaoli.games.minecraft.mods.modpackutils.common.config;
 
+import java.util.Optional;
+
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
@@ -27,9 +29,9 @@ public class ChangelogSection implements Section
      ******************************************************************************************/
 	
 	@Override
-	public String getNodeName() 
+	public Optional<String> getComponentName() 
 	{
-		return "changelog";
+		return Optional.of( "changelog" );
 	}
 
     /******************************************************************************************

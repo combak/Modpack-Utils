@@ -1,5 +1,7 @@
 package de.alaoli.games.minecraft.mods.modpackutils.common.config;
 
+import java.util.Optional;
+
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
@@ -29,19 +31,19 @@ public class WebservicesSection extends SectionGroup
 	
 	public WebservicesSection()
 	{
-		this.addNode( new GithubSection() );
+		this.addComponent( new GithubSection() );
 	}
 	
     /******************************************************************************************
      * Method - Implements Section
      ******************************************************************************************/
-	
-	@Override
-	public String getNodeName() 
-	{
-		return "webservices";
-	}
 
+	@Override
+	public Optional<String> getComponentName() 
+	{
+		return Optional.of( "webservices" );
+	}	
+	
     /******************************************************************************************
      * Method - Implements JsonSerializable
      ******************************************************************************************/

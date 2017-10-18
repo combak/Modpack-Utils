@@ -1,6 +1,7 @@
 package de.alaoli.games.minecraft.mods.modpackutils.common.config;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
@@ -30,9 +31,9 @@ public class CommandSection implements Section
      ******************************************************************************************/
 	
 	@Override
-	public String getNodeName() 
+	public Optional<String> getComponentName() 
 	{
-		return "command";
+		return Optional.of( "command" );
 	}
 
     /******************************************************************************************

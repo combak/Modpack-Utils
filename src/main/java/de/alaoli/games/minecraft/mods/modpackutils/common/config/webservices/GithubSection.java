@@ -1,5 +1,7 @@
 package de.alaoli.games.minecraft.mods.modpackutils.common.config.webservices;
 
+import java.util.Optional;
+
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
@@ -25,13 +27,13 @@ public class GithubSection implements Section
     /******************************************************************************************
      * Method - Implements Section
      ******************************************************************************************/
-	
-	@Override
-	public String getNodeName() 
-	{
-		return "github";
-	}
 
+	@Override
+	public Optional<String> getComponentName() 
+	{
+		return Optional.of( "github" );
+	}
+	
     /******************************************************************************************
      * Method - Implements JsonSerializable
      ******************************************************************************************/
