@@ -20,9 +20,9 @@ public class MPUCommandGroup extends CommandGroup
 	}
 
 	@Override
-	public List getAliases() 
+	public List<String> getAliases()
 	{
-		List list = super.getAliases();
+		List<String> list = super.getAliases();
 		list.addAll( CommandSection.commandAliases );
 		
 		return list;
