@@ -43,5 +43,8 @@ public class ClientProxy extends CommonProxy
 		ClientCommandHandler.instance.registerCommand( commands );
 	
 		ScreenEventHandler.register();
+
+		//CustomMainMenu integration
+		if( Loader.isModLoaded( CustomMainMenuSection.MODID ) ) { CustomMainMenuEventHandler.register(); }
 	}
 }
