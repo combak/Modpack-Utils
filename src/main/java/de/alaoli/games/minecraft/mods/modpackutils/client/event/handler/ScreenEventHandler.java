@@ -1,7 +1,7 @@
 package de.alaoli.games.minecraft.mods.modpackutils.client.event.handler;
 
-import de.alaoli.games.minecraft.mods.modpackutils.client.event.OpenChangelogGuiEvent;
-import de.alaoli.games.minecraft.mods.modpackutils.client.ui.ChangelogScreen;
+import de.alaoli.games.minecraft.mods.lib.common.ui.Screen;
+import de.alaoli.games.minecraft.mods.modpackutils.client.event.OpenScreenEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ChangelogEventHandler 
+public class ScreenEventHandler 
 {
 	/********************************************************************************
 	 * Attributes
@@ -18,19 +18,18 @@ public class ChangelogEventHandler
 	
 	private static class LazyHolder
 	{
-		public static final ChangelogEventHandler INSTANCE = new ChangelogEventHandler();
+		public static final ScreenEventHandler INSTANCE = new ScreenEventHandler();
 	}
 	
-	private OpenChangelogGuiEvent event;
-	
+	private Screen screen;
 	
 	/********************************************************************************
 	 * Method
 	 ********************************************************************************/
 	
-	private ChangelogEventHandler() {}
+	private ScreenEventHandler() {}
 	
-	public static ChangelogEventHandler getInstance()
+	public static ScreenEventHandler getInstance()
 	{
 		return LazyHolder.INSTANCE;
 	}
@@ -39,7 +38,7 @@ public class ChangelogEventHandler
 	{
 		MinecraftForge.EVENT_BUS.register( LazyHolder.INSTANCE );
 	}
-	
+
 	/********************************************************************************
 	 * Method - MinecraftForge Events
 	 ********************************************************************************/
@@ -48,21 +47,20 @@ public class ChangelogEventHandler
 	@SideOnly( value = Side.CLIENT )
 	public void openGuiEvent( ClientTickEvent event )
 	{
-		if( ( this.event != null ) &&
+		if( ( this.screen != null ) &&
 			( event.phase == TickEvent.Phase.START ) &&
 			( !Minecraft.getMinecraft().isGamePaused() ) && 
 			( Minecraft.getMinecraft().player != null ) )
 		{
-			Minecraft.getMinecraft().displayGuiScreen( new ChangelogScreen() );
-			this.event = null;
+			Minecraft.getMinecraft().displayGuiScreen( this.screen );
+			this.screen = null;
 		}
-		
 	}
 	
 	@SubscribeEvent
 	@SideOnly( value = Side.CLIENT )
-	public void triggerOpenGuiEvent( OpenChangelogGuiEvent event )
+	public void onOpenGuiEvent( OpenScreenEvent event )
 	{
-		this.event = event;
-	}
+		this.screen = event.screen;
+	}	
 }
