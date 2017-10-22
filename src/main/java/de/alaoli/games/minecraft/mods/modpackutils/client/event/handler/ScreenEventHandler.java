@@ -1,6 +1,6 @@
 package de.alaoli.games.minecraft.mods.modpackutils.client.event.handler;
 
-import de.alaoli.games.minecraft.mods.lib.common.ui.Screen;
+import de.alaoli.games.minecraft.mods.lib.ui.Screen;
 import de.alaoli.games.minecraft.mods.modpackutils.client.event.OpenScreenEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;

@@ -1,3 +1,6 @@
 [submodule "lib/common-library"]
 	path = lib/common-library
 	url = https://github.com/DerOli82/common-library
+[submodule "lib/ui-library"]
+	path = lib/ui-library
+	url = https://github.com/DerOli82/ui-library

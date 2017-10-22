@@ -1,6 +1,6 @@
 package de.alaoli.games.minecraft.mods.modpackutils.client.event;
 
-import de.alaoli.games.minecraft.mods.lib.common.ui.Screen;
+import de.alaoli.games.minecraft.mods.lib.ui.Screen;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
 public class OpenScreenEvent extends Event 

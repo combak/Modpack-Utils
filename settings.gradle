@@ -1,2 +1,4 @@
 include ':common-library'
+include ':ui-library'
 project(':common-library').projectDir = new File(settingsDir, 'lib/common-library')
+project(':ui-library').projectDir = new File(settingsDir, 'lib/ui-library')
