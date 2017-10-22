@@ -48,8 +48,8 @@ configurations {
 }
 
 dependencies {
-    compile project(":common-library")
-    compile "com.eclipsesource.minimal-json:minimal-json:${config.minimaljson.version}"
+    shade project(":common-library")
+    shade "com.eclipsesource.minimal-json:minimal-json:${config.minimaljson.version}"
     shade "com.mashape.unirest:unirest-java:${config.unirest.version}"
 }
 
