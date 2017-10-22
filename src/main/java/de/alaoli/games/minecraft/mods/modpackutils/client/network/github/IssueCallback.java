@@ -5,7 +5,7 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.async.Callback;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
-import de.alaoli.games.minecraft.mods.modpackutils.client.event.github.IssueCallbackEvent;
+import de.alaoli.games.minecraft.mods.modpackutils.client.event.webservices.IssueCallbackEvent;
 import de.alaoli.games.minecraft.mods.modpackutils.common.data.github.Issue;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;

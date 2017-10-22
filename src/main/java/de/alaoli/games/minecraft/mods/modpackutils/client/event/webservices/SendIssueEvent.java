@@ -1,4 +1,4 @@
-package de.alaoli.games.minecraft.mods.modpackutils.client.event.github;
+package de.alaoli.games.minecraft.mods.modpackutils.client.event.webservices;
 
 import de.alaoli.games.minecraft.mods.modpackutils.common.data.github.Issue;
 import net.minecraft.entity.player.EntityPlayer;
