@@ -39,8 +39,8 @@ version = "${config.minecraft.version}-${config.mod.version}-${grgit.head().abbr
 group= "de.alaoli.games.minecraft.mods.modpackutils" 
 archivesBaseName = "modpackutils"
 
-//sourceCompatibility = org.gradle.api.JavaVersion.VERSION_1_8
-//targetCompatibility = org.gradle.api.JavaVersion.VERSION_1_8
+sourceCompatibility = org.gradle.api.JavaVersion.VERSION_1_8
+targetCompatibility = org.gradle.api.JavaVersion.VERSION_1_8
 
 configurations {
     shade
@@ -57,20 +57,6 @@ minecraft {
     mappings = "${config.forge.mappings}"
     version = "${config.forge.version}"
     runDir = "run"
-}
-
-
-sourceSets { 
-//    lib {
-//        java {
-//            srcDir "lib/common-library/src/main/java/"
-//        }
-//    }
-    main {
-        java {
-            srcDir "src/main/java/"
-        }
-    }
 }
 
 processResources
