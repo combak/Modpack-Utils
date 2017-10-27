@@ -82,5 +82,9 @@ processResources
 
 jar {
     version = project.version
-    configurations.shade.copyRecursive().setTransitive(false).each { artifact -> from (zipTree(artifact)) }
+    configurations.shade.each { dep ->
+        from(project.zipTree(dep)){
+            exclude 'META-INF', 'META-INF/**'
+        }
+    }
 }
