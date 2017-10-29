@@ -3,13 +3,13 @@ package de.alaoli.games.minecraft.mods.modpackutils.client.ui;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import de.alaoli.games.minecraft.mods.lib.ui.Screen;
 import de.alaoli.games.minecraft.mods.lib.ui.drawable.Background;
 import de.alaoli.games.minecraft.mods.lib.ui.drawable.Border;
-import de.alaoli.games.minecraft.mods.lib.ui.drawable.Drawable;
 import de.alaoli.games.minecraft.mods.lib.ui.element.Label;
 import de.alaoli.games.minecraft.mods.lib.ui.element.style.BoxStyle;
 import de.alaoli.games.minecraft.mods.lib.ui.element.style.TextStyle;
@@ -35,57 +35,62 @@ public class ChangelogScreen extends Screen<ChangelogScreen>
 	private ScrollingText changelogPane;
 
 	/******************************************************************************************
+	 * Method
+	 ******************************************************************************************/
+
+	public List<String> getChangelog()
+	{
+		List<String> result;
+
+		try
+		{
+			result = Files.lines( Paths.get( ChangelogSection.file ) ).collect( Collectors.toList() );
+		}
+		catch ( IOException e )
+		{
+			result = new ArrayList<>();
+			result.add( I18n.format( "modpackutils:gui.changelog.notfound" ) );
+
+			Log.error( "Can't load '" + ChangelogSection.file + "': " + e.getMessage() );
+		}
+		return result;
+	}
+
+	/******************************************************************************************
 	 * Method - Implement Layout
 	 ******************************************************************************************/
     	
 	@Override
 	public void doLayout()
 	{
-		List<String> lines = null;
-		
-		try 
-		{
-			lines = Files.lines( Paths.get( ChangelogSection.file ) ).collect( Collectors.toList() );
-		} 
-		catch ( IOException e ) 
-		{
-			Log.error( "Can't load '" + ChangelogSection.file + "': " + e.getMessage() );
-		}		
-		Color textColor = Colors.factory( 255,255,255 );
-		Color borderColor = Colors.factory( 85,85,85 );
-		
-		Drawable background = new Background( Colors.factory( 0.5f, 0, 0, 0 ) );
-		Drawable border = new Border( borderColor );
+		BoxStyle boxStyle = new BoxStyle()
+			.setBackground( new Background( Colors.factory( 0.5f, Color.BLACK ) ) );
+		TextStyle textStyle = new TextStyle()
+			.setColor( Colors.factory( Color.WHITE ) );
 
 		this.titleText = new Label()
 			.setText( I18n.format( "modpackutils:gui.changelog.title" ) )
-			.setElementHeight( 15 )
-			.setTextStyle( new TextStyle()
-				.setColor( textColor )
-				.setAlign( Align.CENTER ) );
+			.setSize( 100, 15 )
+			.setTextStyle( textStyle.extend().setAlign( Align.CENTER ) );
 
 		this.titlePane = new VBox()
-			.setBoxStyle( new BoxStyle()
-				.setBorder( new Border()
-					.hide( true )
-					.hideBottom( false )
-					.setColor( borderColor ) ) )
-			.setElementHeight( 15 )
+			.setBoxStyle( boxStyle.extend().setAlign( Align.CENTER ) )
+			.setHeight( 15 )
 			.addElement( this.titleText );
-		
+
 		this.changelogPane = new ScrollingText()
-			.setLines( lines )
-			.setBoxStyle( new BoxStyle().setPadding( 5 ) )
-			.setTextStyle( new TextStyle()
-				.setColor( textColor ) );
-		
+			.setLines( this.getChangelog() )
+			.setBoxStyle( boxStyle.extend()
+				.setBorder( new Border( Colors.factory( Color.DARKGRAY ) ) )
+				.setPadding( 5 ) )
+			.setTextStyle( textStyle );
+
 		this.borderPane = new BorderPane()
 			.setBorder( Align.TOP, this.titlePane )
 			.setBorder( Align.CENTER, this.changelogPane )
-			.setBoxStyle( new BoxStyle()
-				.setBackground( background )
-				.setBorder( border )
-				.setPadding( 10 ) );
+			.setBoxStyle( boxStyle.extend()
+				.setPadding( 10 )
+				.setMargin( 10, 30, 30, 10 ));
 		
 		this.setLayout( this.borderPane );
 	}

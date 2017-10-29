@@ -17,7 +17,7 @@ import de.alaoli.games.minecraft.mods.lib.ui.layout.VBox;
 import de.alaoli.games.minecraft.mods.lib.ui.util.Align;
 import de.alaoli.games.minecraft.mods.lib.ui.util.Color;
 import de.alaoli.games.minecraft.mods.lib.ui.util.Colors;
-import de.alaoli.games.minecraft.mods.lib.ui.util.State;
+import de.alaoli.games.minecraft.mods.lib.ui.element.state.State;
 import de.alaoli.games.minecraft.mods.modpackutils.client.event.webservices.SendIssueEvent;
 import de.alaoli.games.minecraft.mods.modpackutils.common.data.github.Issue;
 import net.minecraft.client.resources.I18n;
@@ -32,11 +32,7 @@ public class IssueScreen extends Screen<IssueScreen>
 	
 	private EntityPlayer player;
 	private Issue issue;
-	/*
-	private final Label titleText = new Label( "modpackutils:gui.bugreport.title" );
-	private final LabeledTextField playerTextField = new LabeledTextField( "playerTextfield", this, "modpackutils:gui.bugreport.label.name" );
-	private final LabeledTextField titleTextField =  new LabeledTextField( "titleTextField", this, "modpackutils:gui.bugreport.label.title" );
-*/	
+
 	private BorderPane borderPane;
 	private VBox titlePane;
 	private Label titleText;
@@ -88,89 +84,86 @@ public class IssueScreen extends Screen<IssueScreen>
 	@Override
 	public void doLayout()
 	{
-		int fieldWidth = this.width-145;
-		int centerX = (this.width-20)/2;
+		int fieldWidth = this.width-185;
+		int centerX = (this.width-60)/2;
 
-		Color textColor = Colors.factory( 255, 255, 255 );
-		Color borderColor = Colors.factory( 85, 85, 85 );
-
-		TextStyle labelStyle = new TextStyle()
-			.setColor( textColor );
-
-		Background bgBlack = new Background( Colors.factory(0,0,0) );
+		TextStyle textStyle = new TextStyle().setColor( Colors.factory( Color.WHITE ) );
+		BoxStyle paneStyle = new BoxStyle()
+			.setBackground( new Background( Colors.factory( 0.5f, Color.BLACK ) ) )
+			.setBorder( new Border( Colors.factory( Color.DARKGRAY ) ) );
+		BoxStyle boxStyle = new BoxStyle()
+			.setBackground( new Background( Colors.factory( Color.BLACK ) ) )
+			.setBorder( new Border( Colors.factory( Color.DARKGRAY ) ) );
 
 		StateableStyle<BoxStyle> fieldBoxStyle = new StateableStyle<BoxStyle>()
-			.add( State.NONE, new BoxStyle()
-				.setBackground( bgBlack )
-				.setBorder( new Border( borderColor ) ))
-			.add( State.HOVERED, new BoxStyle()
-				.setBackground( bgBlack )
-				.setBorder( new Border( Colors.factory( 170, 170, 170) ) ))
-			.add( State.FOCUSED, new BoxStyle()
-					.setBackground( bgBlack )
-					.setBorder( new Border( textColor ) ));
+			.add( State.NONE, boxStyle )
+			.add( State.HOVERED, boxStyle.extend().setBorder( new Border( Colors.factory( Color.GRAY ) ) ))
+			.add( State.FOCUSED, boxStyle.extend().setBorder( new Border( Colors.factory( Color.WHITE ) ) ));
 
 		StateableStyle<TextStyle> fieldTextStyle = new StateableStyle<TextStyle>()
-			.add( State.NONE, labelStyle )
-			.add( State.DISABLED, new TextStyle()
-				.setColor( borderColor ) );
+			.add( State.NONE, textStyle.extend().setAlign( Align.LEFT ) )
+			.add( State.DISABLED, textStyle.extend().setColor( Colors.factory( Color.DARKGRAY ) ) );
 
+		StateableStyle<TextStyle> fieldTextAreaStyle = new StateableStyle<TextStyle>()
+				.add( State.NONE, textStyle.extend().setAlign( Align.TOPLEFT) )
+				.add( State.DISABLED, textStyle.extend().setColor( Colors.factory( Color.DARKGRAY ) ) );
+
+		StateableStyle<TextStyle> buttonTextStyle = new StateableStyle<TextStyle>()
+				.add( State.NONE, textStyle.extend().setAlign( Align.CENTER) );
 
 		this.titleText = new Label()
 			.setText( I18n.format( "modpackutils:gui.bugreport.title" ) )
-			.setElementHeight( 15 )
-			.setTextStyle( new TextStyle()
-				.setColor( textColor )
-				.setAlign( Align.CENTER ) );
+			.setSize( 100, 15 )
+			.setTextStyle( textStyle.extend().setAlign( Align.CENTER ) );
 		
 		this.titlePane = new VBox()
-			.setElementHeight( 15 )
+			.setHeight( 15 )
 			.addElement( this.titleText )
-			.setBoxStyle( new BoxStyle()
-				.setBorder( new Border( borderColor )
-					.hide( true )
-					.hideBottom( false ) )  );
+			.setBoxStyle( paneStyle.extend()
+				.setAlign( Align.CENTER )
+				.setBorder( new Border( Colors.factory( Color.DARKGRAY ) )
+				.hide( true, true, true, false )));
 		
 		this.nameLabel = new Label()
 			.setText( I18n.format( "modpackutils:gui.bugreport.label.name" ) )
-			.setElementBounds( 10,10, 100, 15 )
-			.setTextStyle( labelStyle );
+			.setBounds( 10,10, 100, 15 )
+			.setTextStyle( textStyle );
 
 		this.name = new TextField()
 			.setPlaceholder( I18n.format( "modpackutils:gui.bugreport.placeholder.name" ) )
 			.setText( (this.player != null ) ? this.player.getDisplayNameString() : "" )
-			.setElementBounds( 115,10, fieldWidth, 15 )
+			.setBounds( 115,10, fieldWidth, 15 )
 			.setBoxStyle( fieldBoxStyle )
-			.setTextStyle( fieldTextStyle )
-			.setDisable( this.player != null );
+			.setTextStyle( fieldTextStyle );
 
 		this.titleLabel = new Label()
 			.setText( I18n.format( "modpackutils:gui.bugreport.label.title" ) )
-			.setElementBounds( 10,30, 100, 15 )
-			.setTextStyle( labelStyle );
+			.setBounds( 10,30, 100, 15 )
+			.setTextStyle( textStyle );
 
 		this.title = new TextField()
 			.setPlaceholder( I18n.format( "modpackutils:gui.bugreport.placeholder.title" ) )
-			.setElementBounds( 115,30, fieldWidth, 15 )
+			.setBounds( 115,30, fieldWidth, 15 )
 			.setBoxStyle( fieldBoxStyle )
 			.setTextStyle( fieldTextStyle );
 
 		this.descriptionLabel = new Label()
 			.setText( I18n.format( "modpackutils:gui.bugreport.label.description" ) )
-			.setElementBounds( 10,50, 100, 15 )
-			.setTextStyle( labelStyle );
+			.setBounds( 10,50, 100, 15 )
+			.setTextStyle( textStyle );
 
 		this.description = new TextArea()
+			.setMaxLines( 10 )
 			.setPlaceholder( I18n.format( "modpackutils:gui.bugreport.placeholder.description" ) )
-			.setElementBounds( 115,50, fieldWidth, 100 )
+			.setBounds( 115,50, fieldWidth, 100 )
 			.setBoxStyle( fieldBoxStyle )
-			.setTextStyle( fieldTextStyle );
+			.setTextStyle( fieldTextAreaStyle );
 
 		this.sendButton = new Button()
 			.setText( I18n.format( "modpackutils:gui.bugreport.button.send" ) )
-			.setElementBounds( centerX-110,170, 100, 20 )
+			.setBounds( centerX-110,170, 100, 20 )
 			.setBoxStyle( fieldBoxStyle )
-			.setTextStyle( fieldTextStyle )
+			.setTextStyle( buttonTextStyle )
 			.onMouseClicked( button -> {
 				Issue issue = new Issue(
 					this.name.getText().orElse( "" ),
@@ -183,28 +176,26 @@ public class IssueScreen extends Screen<IssueScreen>
 
 		this.cancelButton = new Button()
 			.setText( I18n.format( "modpackutils:gui.bugreport.button.cancel" ) )
-			.setElementBounds( centerX+10,170, 100, 20 )
+			.setBounds( centerX+10,170, 100, 20 )
 			.setBoxStyle( fieldBoxStyle )
-			.setTextStyle( fieldTextStyle )
+			.setTextStyle( buttonTextStyle )
 			.onMouseClicked( button -> this.close() );
 
 		this.formPane = new Pane()
-			.addElement( this.nameLabel )
-			.addElement( this.name )
-			.addElement( this.titleLabel )
-			.addElement( this.title )
-			.addElement( this.descriptionLabel )
-			.addElement( this.description )
-			.addElement( this.sendButton )
-			.addElement( this.cancelButton );
-				
+			.add( this.nameLabel )
+			.add( this.name )
+			.add( this.titleLabel )
+			.add( this.title )
+			.add( this.descriptionLabel )
+			.add( this.description )
+			.add( this.sendButton )
+			.add( this.cancelButton );
+
 		this.borderPane = new BorderPane()
 			.setBorder( Align.TOP, this.titlePane )
 			.setBorder( Align.CENTER, this.formPane )
-			.setBoxStyle( new BoxStyle()
-				.setBackground( new Background( Colors.factory( 0.5f, 0, 0, 0 ) ) )
-				.setBorder( new Border( borderColor ) )
-				.setPadding( 10 ) );
+			.setBoxStyle( paneStyle.extend()
+				.setMargin( 10, 30, 30, 10 ) );
 
 		this.addListener( this.name )
 			.addListener( this.title )
