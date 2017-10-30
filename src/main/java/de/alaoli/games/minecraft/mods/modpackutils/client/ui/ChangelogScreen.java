@@ -53,6 +53,11 @@ public class ChangelogScreen extends Screen<ChangelogScreen>
 
 			Log.error( "Can't load '" + ChangelogSection.file + "': " + e.getMessage() );
 		}
+		
+		if( result.isEmpty() )
+		{
+			result.add( I18n.format( "modpackutils:gui.changelog.isempty" ) );
+		}
 		return result;
 	}
 

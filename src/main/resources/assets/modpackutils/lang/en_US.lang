@@ -1,5 +1,6 @@
 modpackutils:gui.changelog.title=Changelog
 modpackutils:gui.changelog.notfound=Changelog not found
+modpackutils:gui.changelog.isempty=Changelog is empty
 
 modpackutils:gui.bugreport.title=Bug Report
 modpackutils:gui.bugreport.label.name=Name: 
