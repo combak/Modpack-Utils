@@ -23,6 +23,7 @@ import de.alaoli.games.minecraft.mods.modpackutils.common.data.github.Issue;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
+import org.lwjgl.input.Keyboard;
 
 public class IssueScreen extends Screen<IssueScreen> 
 {
@@ -76,7 +77,17 @@ public class IssueScreen extends Screen<IssueScreen>
 		
 		return this;
 	}
-	
+
+	public void sendIssue()
+	{
+		Issue issue = new Issue(
+			this.name.getText().orElse( "" ),
+			this.title.getText().orElse( ""),
+			this.description.getText().orElse( "" )
+		);
+		MinecraftForge.EVENT_BUS.post( new SendIssueEvent( this.player, issue ) );
+	}
+
 	/******************************************************************************************
 	 * Method - Implements Layout
 	 ******************************************************************************************/
@@ -164,22 +175,16 @@ public class IssueScreen extends Screen<IssueScreen>
 			.setBounds( centerX-110,170, 100, 20 )
 			.setBoxStyle( fieldBoxStyle )
 			.setTextStyle( buttonTextStyle )
-			.onMouseClicked( button -> {
-				Issue issue = new Issue(
-					this.name.getText().orElse( "" ),
-					this.title.getText().orElse( ""),
-					this.description.getText().orElse( "" )
-				);
-				MinecraftForge.EVENT_BUS.post( new SendIssueEvent( this.player, issue ) );
-				this.close();
-			});
+			.onMouseClicked( button -> { this.sendIssue(); this.close(); })
+			.onKeyPressed( key -> { if( key.eventKey == Keyboard.KEY_RETURN ) { this.sendIssue(); this.close(); }});
 
 		this.cancelButton = new Button()
 			.setText( I18n.format( "modpackutils:gui.bugreport.button.cancel" ) )
 			.setBounds( centerX+10,170, 100, 20 )
 			.setBoxStyle( fieldBoxStyle )
 			.setTextStyle( buttonTextStyle )
-			.onMouseClicked( button -> this.close() );
+			.onMouseClicked( button -> this.close() )
+			.onKeyPressed( key -> { if( key.eventKey == Keyboard.KEY_RETURN ) { this.close(); }});
 
 		this.formPane = new Pane()
 			.add( this.nameLabel )
