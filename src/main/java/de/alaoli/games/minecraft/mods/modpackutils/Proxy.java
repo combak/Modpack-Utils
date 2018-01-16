@@ -18,31 +18,12 @@
  ************************************************************************************************************* */
 package de.alaoli.games.minecraft.mods.modpackutils;
 
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
 /**
  * @author DerOli82 <https://github.com/DerOli82>
  */
-@Mod( modid = Constants.Mod.ID, name = Constants.Mod.NAME, version = Constants.Mod.VERSION, clientSideOnly = true )
-public final class ModpackUtils
+public interface Proxy
 {
-    /* **************************************************************************************************************
-     * Attribute
-	 ************************************************************************************************************** */
-
-    @SidedProxy( clientSide = Constants.Mod.PROXY_CLIENT, serverSide = Constants.Mod.PROXY_COMMON )
-    public static Proxy proxy;
-    
-    /* **************************************************************************************************************
-     * Method - Events
-	 ************************************************************************************************************** */
-
-    @EventHandler 
-	public void onFMLInitializationEvent( FMLInitializationEvent event )
-	{		
-		proxy.onFMLInitializationEvent( event );
-	}
+    void onFMLInitializationEvent( FMLInitializationEvent event );
 }

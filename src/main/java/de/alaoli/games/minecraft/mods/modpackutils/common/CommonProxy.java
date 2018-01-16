@@ -16,33 +16,20 @@
  *
  * https://www.gnu.org/licenses/lgpl-3.0.html
  ************************************************************************************************************* */
-package de.alaoli.games.minecraft.mods.modpackutils;
+package de.alaoli.games.minecraft.mods.modpackutils.common;
 
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.SidedProxy;
+import de.alaoli.games.minecraft.mods.modpackutils.Proxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
 /**
  * @author DerOli82 <https://github.com/DerOli82>
  */
-@Mod( modid = Constants.Mod.ID, name = Constants.Mod.NAME, version = Constants.Mod.VERSION, clientSideOnly = true )
-public final class ModpackUtils
+public class CommonProxy implements Proxy
 {
-    /* **************************************************************************************************************
-     * Attribute
+	/* **************************************************************************************************************
+	 * Method - Implement Proxy
 	 ************************************************************************************************************** */
 
-    @SidedProxy( clientSide = Constants.Mod.PROXY_CLIENT, serverSide = Constants.Mod.PROXY_COMMON )
-    public static Proxy proxy;
-    
-    /* **************************************************************************************************************
-     * Method - Events
-	 ************************************************************************************************************** */
-
-    @EventHandler 
-	public void onFMLInitializationEvent( FMLInitializationEvent event )
-	{		
-		proxy.onFMLInitializationEvent( event );
-	}
+	@Override
+	public void onFMLInitializationEvent( FMLInitializationEvent event ) {}
 }
