@@ -22,6 +22,10 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import org.apache.logging.log4j.Logger;
+
+import java.util.Optional;
 
 /**
  * @author DerOli82 <https://github.com/DerOli82>
@@ -35,14 +39,30 @@ public final class ModpackUtils
 
     @SidedProxy( clientSide = Constants.Mod.PROXY_CLIENT, serverSide = Constants.Mod.PROXY_COMMON )
     public static Proxy proxy;
-    
+    public static Logger logger;
+
+	/* **************************************************************************************************************
+	 * Method
+	 ************************************************************************************************************** */
+
+	public static  Optional<Logger> getLogger()
+	{
+		return Optional.of( logger );
+	}
+
     /* **************************************************************************************************************
      * Method - Events
 	 ************************************************************************************************************** */
 
+	@EventHandler
+	public void onFMLPreInitializationEvent(FMLPreInitializationEvent event )
+	{
+		logger = event.getModLog();
+	}
+
     @EventHandler 
 	public void onFMLInitializationEvent( FMLInitializationEvent event )
-	{		
+	{
 		proxy.onFMLInitializationEvent( event );
 	}
 }
