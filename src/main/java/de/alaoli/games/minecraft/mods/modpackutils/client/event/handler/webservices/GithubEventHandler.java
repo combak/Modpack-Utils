@@ -9,13 +9,11 @@ import com.mashape.unirest.http.Unirest;
 import de.alaoli.games.minecraft.mods.modpackutils.client.event.webservices.IssueCallbackEvent;
 import de.alaoli.games.minecraft.mods.modpackutils.client.event.webservices.SendIssueEvent;
 import de.alaoli.games.minecraft.mods.modpackutils.client.network.github.IssueCallback;
-import de.alaoli.games.minecraft.mods.modpackutils.common.config.WebservicesSection;
+import de.alaoli.games.minecraft.mods.modpackutils.common.config.Settings;
 import de.alaoli.games.minecraft.mods.modpackutils.common.data.github.Issue;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class GithubEventHandler
 {
@@ -51,7 +49,6 @@ public class GithubEventHandler
 	 ********************************************************************************/
 	
 	@SubscribeEvent
-	@SideOnly( value = Side.CLIENT )
 	public void onIssueCallback( IssueCallbackEvent event )
 	{
 		switch( event.callback.getState() )
@@ -65,12 +62,18 @@ public class GithubEventHandler
 				}
 				else
 				{
-					event.callback.player.sendMessage( new TextComponentString( event.callback.getResponse().getStatusText() ) );
+					if( event.callback.player != null )
+					{
+						event.callback.player.sendMessage(new TextComponentString(event.callback.getResponse().getStatusText()));
+					}
 				}
 				break;
 				
 			case IssueCallback.STATE_FAILED :
-				event.callback.player.sendMessage( new TextComponentString( event.callback.getException().getMessage() ) );
+				if( event.callback.player != null )
+				{
+					event.callback.player.sendMessage(new TextComponentString(event.callback.getException().getMessage()));
+				}
 				break;
 				
 			case IssueCallback.STATE_CANCELLED :
@@ -79,15 +82,14 @@ public class GithubEventHandler
 	}
 	
 	@SubscribeEvent
-	@SideOnly( value = Side.CLIENT )
 	public void onSendIssueEvent( SendIssueEvent event )
 	{
 		this.pendingIssue = event.issue;
 		
-		Future<HttpResponse<JsonNode>> response = Unirest.post( WebservicesSection.url + "/issue" )
+		Future<HttpResponse<JsonNode>> response = Unirest.post(Settings.webservices.url + "/issue" )
 			.header( "Accept", "application/json" )
 			.header( "Content-Type", "application/json" )
-			.body( event.issue.serialize().toString() )
+			//.body( event.issue.serialize().toString() )
 			.asJsonAsync( new IssueCallback( event.player, event.issue ) );	
 	}
 }

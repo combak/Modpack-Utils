@@ -1,13 +1,8 @@
 package de.alaoli.games.minecraft.mods.modpackutils.common.data.github;
 
-import com.eclipsesource.json.JsonObject;
-import com.eclipsesource.json.JsonValue;
+import de.alaoli.games.minecraft.mods.modpackutils.common.config.Settings;
 
-import de.alaoli.games.minecraft.mods.lib.common.data.DataException;
-import de.alaoli.games.minecraft.mods.lib.common.json.JsonSerializable;
-import de.alaoli.games.minecraft.mods.modpackutils.common.config.webservices.GithubSection;
-
-public class Issue implements JsonSerializable
+public class Issue //implements JsonSerializable
 {
     /******************************************************************************************
      * Attribute
@@ -16,7 +11,7 @@ public class Issue implements JsonSerializable
 	/**
 	 * The token of the related repository.
 	 */
-	public final String repository = GithubSection.repository;
+	public final String repository = Settings.webservices.github.repository;
 	
 	/**
 	 * The author of the issue.
@@ -53,7 +48,7 @@ public class Issue implements JsonSerializable
 	
     /******************************************************************************************
      * Method - Implement JsonSerializable
-     ******************************************************************************************/
+     ******************************************************************************************
 
 	@Override
 	public JsonValue serialize() throws DataException 
@@ -69,5 +64,5 @@ public class Issue implements JsonSerializable
 	}
 
 	@Override
-	public void deserialize( JsonValue json ) throws DataException { /* Write only */ }
+	public void deserialize( JsonValue json ) throws DataException { /* Write only * }*/
 }

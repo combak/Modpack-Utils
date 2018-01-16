@@ -3,7 +3,7 @@ package de.alaoli.games.minecraft.mods.modpackutils.client.command;
 import java.util.List;
 
 import de.alaoli.games.minecraft.mods.lib.common.command.CommandGroup;
-import de.alaoli.games.minecraft.mods.modpackutils.common.config.CommandSection;
+import de.alaoli.games.minecraft.mods.modpackutils.common.config.Settings;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 
@@ -16,14 +16,14 @@ public class MPUCommandGroup extends CommandGroup
 	@Override
 	public String getName() 
 	{
-		return CommandSection.command;
+		return Settings.command.name;
 	}
 
 	@Override
 	public List<String> getAliases()
 	{
 		List<String> list = super.getAliases();
-		list.addAll( CommandSection.commandAliases );
+
 		
 		return list;
 	}

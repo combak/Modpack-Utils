@@ -1,71 +1,99 @@
+/* *************************************************************************************************************
+ * Copyright (c) 2017 DerOli82 <https://github.com/DerOli82>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see:
+ *
+ * https://www.gnu.org/licenses/lgpl-3.0.html
+ ************************************************************************************************************ */
 package de.alaoli.games.minecraft.mods.modpackutils.client.ui.github;
 
 import java.util.Optional;
 import de.alaoli.games.minecraft.mods.lib.ui.Screen;
-import de.alaoli.games.minecraft.mods.lib.ui.drawable.Background;
 import de.alaoli.games.minecraft.mods.lib.ui.drawable.Border;
-import de.alaoli.games.minecraft.mods.lib.ui.element.Button;
-import de.alaoli.games.minecraft.mods.lib.ui.element.Label;
-import de.alaoli.games.minecraft.mods.lib.ui.element.TextArea;
-import de.alaoli.games.minecraft.mods.lib.ui.element.TextField;
-import de.alaoli.games.minecraft.mods.lib.ui.element.style.BoxStyle;
-import de.alaoli.games.minecraft.mods.lib.ui.element.style.StateableStyle;
-import de.alaoli.games.minecraft.mods.lib.ui.element.style.TextStyle;
+import de.alaoli.games.minecraft.mods.lib.ui.element.*;
+import de.alaoli.games.minecraft.mods.lib.ui.element.style.*;
+import de.alaoli.games.minecraft.mods.lib.ui.event.MouseEvent;
 import de.alaoli.games.minecraft.mods.lib.ui.layout.BorderPane;
 import de.alaoli.games.minecraft.mods.lib.ui.layout.Pane;
 import de.alaoli.games.minecraft.mods.lib.ui.layout.VBox;
 import de.alaoli.games.minecraft.mods.lib.ui.util.Align;
 import de.alaoli.games.minecraft.mods.lib.ui.util.Color;
 import de.alaoli.games.minecraft.mods.lib.ui.util.Colors;
-import de.alaoli.games.minecraft.mods.lib.ui.element.state.State;
 import de.alaoli.games.minecraft.mods.modpackutils.client.event.webservices.SendIssueEvent;
 import de.alaoli.games.minecraft.mods.modpackutils.common.data.github.Issue;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
-import org.lwjgl.input.Keyboard;
 
-public class IssueScreen extends Screen<IssueScreen> 
+/**
+ * @author DerOli82 <https://github.com/DerOli82>
+ */
+public class IssueScreen extends Screen
 {
-	/******************************************************************************************
+	/* **************************************************************************************************************
 	 * Attribute 
-	 ******************************************************************************************/
+	 ************************************************************************************************************** */
 	
 	private EntityPlayer player;
 	private Issue issue;
 
-	private BorderPane borderPane;
-	private VBox titlePane;
-	private Label titleText;
-	private Pane formPane;
-	private Label nameLabel;
-	private TextField name;
+	private final BorderPane borderPane = new BorderPane();
+	private final VBox titlePane = new VBox();
+	private final Label titleText = new Label();
+	private final Pane formPane = new Pane();
 
-	private Label titleLabel;
-	private TextField title;
+	private final Label nameLabel = new Label();
+	private final TextField name = new TextField();
 
-	private Label descriptionLabel;
-	private TextArea description;
+	private final Label titleLabel = new Label();
+	private final TextField title = new TextField();
 
-	private Button sendButton;
-	private Button cancelButton;
+	private final Label descriptionLabel = new Label();
+	private final TextArea description = new TextArea();
 
-	/******************************************************************************************
+	private final Button sendButton = new Button();
+	private final Button cancelButton = new Button();
+
+	/* **************************************************************************************************************
 	 * Method 
-	 ******************************************************************************************/
+	 ************************************************************************************************************** */
+
+	private String getPlayerName()
+	{
+		if( this.player != null )
+		{
+			return this.player.getDisplayNameString();
+		}
+		else
+		{
+			return Minecraft.getMinecraft().getSession().getUsername();
+		}
+	}
 
 	public Optional<EntityPlayer> getPlayer()
 	{
 		return Optional.ofNullable( this.player );
 	}
-	
+
 	public IssueScreen setPlayer( EntityPlayer player )
 	{
 		this.player = player;
 		
 		return this;
 	}
-	
+
 	public Optional<Issue> getIssue()
 	{
 		return Optional.ofNullable( this.issue );
@@ -78,7 +106,21 @@ public class IssueScreen extends Screen<IssueScreen>
 		return this;
 	}
 
-	public void sendIssue()
+	private void validate()
+	{
+		if( ( !this.name.getText().orElse( "" ).isEmpty() ) &&
+			( !this.title.getText().orElse( "" ).isEmpty() ) &&
+			( !this.description.getText().orElse( "" ).isEmpty() ) )
+		{
+			this.sendButton.setDisable( false );
+		}
+		else
+		{
+			this.sendButton.setDisable( true );
+		}
+	}
+
+	private void sendIssue()
 	{
 		Issue issue = new Issue(
 			this.name.getText().orElse( "" ),
@@ -88,125 +130,119 @@ public class IssueScreen extends Screen<IssueScreen>
 		MinecraftForge.EVENT_BUS.post( new SendIssueEvent( this.player, issue ) );
 	}
 
-	/******************************************************************************************
-	 * Method - Implements Layout
-	 ******************************************************************************************/
+	/* **************************************************************************************************************
+	 * Method - Implements Screen
+	 ************************************************************************************************************** */
 
 	@Override
-	public void doLayout()
+	public void init()
 	{
-		int fieldWidth = this.width-185;
-		int centerX = (this.width-60)/2;
+		int fieldWidth = this.width-185,
+			centerX = this.width/2;
+		BoxStyle boxStyle = Defaults.getBoxStyles().getOptions();
+		TextStyle labelStyle = Defaults.getTextStyles().getText();
 
-		TextStyle textStyle = new TextStyle().setColor( Colors.factory( Color.WHITE ) );
-		BoxStyle paneStyle = new BoxStyle()
-			.setBackground( new Background( Colors.factory( 0.5f, Color.BLACK ) ) )
-			.setBorder( new Border( Colors.factory( Color.DARKGRAY ) ) );
-		BoxStyle boxStyle = new BoxStyle()
-			.setBackground( new Background( Colors.factory( Color.BLACK ) ) )
-			.setBorder( new Border( Colors.factory( Color.DARKGRAY ) ) );
-
-		StateableStyle<BoxStyle> fieldBoxStyle = new StateableStyle<BoxStyle>()
-			.add( State.NONE, boxStyle )
-			.add( State.HOVERED, boxStyle.extend().setBorder( new Border( Colors.factory( Color.GRAY ) ) ))
-			.add( State.FOCUSED, boxStyle.extend().setBorder( new Border( Colors.factory( Color.WHITE ) ) ));
-
-		StateableStyle<TextStyle> fieldTextStyle = new StateableStyle<TextStyle>()
-			.add( State.NONE, textStyle.extend().setAlign( Align.LEFT ) )
-			.add( State.DISABLED, textStyle.extend().setColor( Colors.factory( Color.DARKGRAY ) ) );
-
-		StateableStyle<TextStyle> fieldTextAreaStyle = new StateableStyle<TextStyle>()
-				.add( State.NONE, textStyle.extend().setAlign( Align.TOPLEFT) )
-				.add( State.DISABLED, textStyle.extend().setColor( Colors.factory( Color.DARKGRAY ) ) );
-
-		StateableStyle<TextStyle> buttonTextStyle = new StateableStyle<TextStyle>()
-				.add( State.NONE, textStyle.extend().setAlign( Align.CENTER) );
-
-		this.titleText = new Label()
+		this.titleText
 			.setText( I18n.format( "modpackutils:gui.bugreport.title" ) )
-			.setSize( 100, 15 )
-			.setTextStyle( textStyle.extend().setAlign( Align.CENTER ) );
-		
-		this.titlePane = new VBox()
-			.setHeight( 15 )
+			.setTextStyle( Defaults.getTextStyles().getTitle() )
+			.setSize( 100, 15 );
+
+		this.titlePane
 			.addElement( this.titleText )
-			.setBoxStyle( paneStyle.extend()
+			.setBoxStyle( boxStyle.extend()
 				.setAlign( Align.CENTER )
-				.setBorder( new Border( Colors.factory( Color.DARKGRAY ) )
-				.hide( true, true, true, false )));
-		
-		this.nameLabel = new Label()
+				.setBorder( new Border( Colors.factory( Color.DARKGRAY ) ).hide( false, false, false, true )))
+			.setHeight( 15 );
+
+		this.nameLabel
 			.setText( I18n.format( "modpackutils:gui.bugreport.label.name" ) )
-			.setBounds( 10,10, 100, 15 )
-			.setTextStyle( textStyle );
+			.setTextStyle( labelStyle )
+			.setBounds( 10,10, 100, 15 );
 
-		this.name = new TextField()
+		this.name
 			.setPlaceholder( I18n.format( "modpackutils:gui.bugreport.placeholder.name" ) )
-			.setText( (this.player != null ) ? this.player.getDisplayNameString() : "" )
-			.setBounds( 115,10, fieldWidth, 15 )
-			.setBoxStyle( fieldBoxStyle )
-			.setTextStyle( fieldTextStyle );
+			.setText( this.getPlayerName() )
+			.onKeyPressed( key -> this.validate() )
+			.setBounds(115,10, fieldWidth, 15  );
 
-		this.titleLabel = new Label()
+		this.titleLabel
 			.setText( I18n.format( "modpackutils:gui.bugreport.label.title" ) )
-			.setBounds( 10,30, 100, 15 )
-			.setTextStyle( textStyle );
+			.setTextStyle( labelStyle )
+			.setBounds( 10,30, 100, 15 );
 
-		this.title = new TextField()
+		this.title
 			.setPlaceholder( I18n.format( "modpackutils:gui.bugreport.placeholder.title" ) )
-			.setBounds( 115,30, fieldWidth, 15 )
-			.setBoxStyle( fieldBoxStyle )
-			.setTextStyle( fieldTextStyle );
+			.setMaxLength( 100 )
+			.onKeyPressed( key -> this.validate() )
+			.setBounds(115,30, fieldWidth, 15  );
 
-		this.descriptionLabel = new Label()
+		this.descriptionLabel
 			.setText( I18n.format( "modpackutils:gui.bugreport.label.description" ) )
-			.setBounds( 10,50, 100, 15 )
-			.setTextStyle( textStyle );
+			.setTextStyle( labelStyle )
+			.setBounds( 10,50, 100, 15 );
 
-		this.description = new TextArea()
-			.setMaxLines( 10 )
+		this.description
 			.setPlaceholder( I18n.format( "modpackutils:gui.bugreport.placeholder.description" ) )
-			.setBounds( 115,50, fieldWidth, 100 )
-			.setBoxStyle( fieldBoxStyle )
-			.setTextStyle( fieldTextAreaStyle );
+			.setMaxLength( 5000 )
+			.onKeyPressed( key -> this.validate() )
+			.setBounds(115,50, fieldWidth, 100 );
 
-		this.sendButton = new Button()
+		this.sendButton
+			.setDisable( true )
 			.setText( I18n.format( "modpackutils:gui.bugreport.button.send" ) )
-			.setBounds( centerX-110,170, 100, 20 )
-			.setBoxStyle( fieldBoxStyle )
-			.setTextStyle( buttonTextStyle )
-			.onMouseClicked( button -> { this.sendIssue(); this.close(); })
-			.onKeyPressed( key -> { if( key.eventKey == Keyboard.KEY_RETURN ) { this.sendIssue(); this.close(); }});
+			.onMouseClicked( mouse -> {
+				if( ( mouse.button == MouseEvent.BUTTON_LEFT ) &&
+					( !this.sendButton.isDisabled() ) )
+				{
+					this.sendIssue();
+					this.close();
+				}
+			})
+			.setBounds(centerX-110,170, 100, 20 );
 
-		this.cancelButton = new Button()
+		this.cancelButton
 			.setText( I18n.format( "modpackutils:gui.bugreport.button.cancel" ) )
-			.setBounds( centerX+10,170, 100, 20 )
-			.setBoxStyle( fieldBoxStyle )
-			.setTextStyle( buttonTextStyle )
-			.onMouseClicked( button -> this.close() )
-			.onKeyPressed( key -> { if( key.eventKey == Keyboard.KEY_RETURN ) { this.close(); }});
+			.onMouseClicked( mouse -> { if( mouse.button == MouseEvent.BUTTON_LEFT ) { this.close(); } } )
+			.setBounds( centerX-110,170, 100, 20 );
 
-		this.formPane = new Pane()
+		this.formPane
+			.setBoxStyle( boxStyle.extend().setBorder(Defaults.getDrawables().getBorder() ) )
 			.add( this.nameLabel )
 			.add( this.name )
 			.add( this.titleLabel )
 			.add( this.title )
-			.add( this.descriptionLabel )
+			.add( this.descriptionLabel)
 			.add( this.description )
 			.add( this.sendButton )
 			.add( this.cancelButton );
 
-		this.borderPane = new BorderPane()
+		this.borderPane
 			.setBorder( Align.TOP, this.titlePane )
 			.setBorder( Align.CENTER, this.formPane )
-			.setBoxStyle( paneStyle.extend()
-				.setMargin( 10, 30, 30, 10 ) );
+			.setBoxStyle( new BoxStyling().setMargin( 10, 30, 30, 10 ) );
 
-		this.addListener( this.name )
+		this.setLayout( this.borderPane )
+			.addListener( this.name )
 			.addListener( this.title )
 			.addListener( this.description )
 			.addListener( this.sendButton )
-			.addListener( this.cancelButton)
-			.setLayout( this.borderPane );
+			.addListener( this.cancelButton );
+	}
+
+	/* **************************************************************************************************************
+	 * Method - Implements Layout
+	 ************************************************************************************************************** */
+
+	@Override
+	public void layout()
+	{
+		int fieldWidth = this.width-185;
+		int centerX = this.width/2;
+
+		this.name.setSize( fieldWidth, 15  );
+		this.title.setSize( fieldWidth, 15 );
+		this.description.setSize( fieldWidth, 100 );
+		this.sendButton.setLocation( centerX-110,170 );
+		this.cancelButton.setLocation( centerX+10,170 );
 	}
 }

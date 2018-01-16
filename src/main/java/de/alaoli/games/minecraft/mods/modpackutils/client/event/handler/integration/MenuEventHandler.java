@@ -20,7 +20,7 @@ package de.alaoli.games.minecraft.mods.modpackutils.client.event.handler.integra
 
 import de.alaoli.games.minecraft.mods.modpackutils.client.ui.ChangelogScreen;
 import de.alaoli.games.minecraft.mods.modpackutils.client.ui.github.IssueScreen;
-import de.alaoli.games.minecraft.mods.modpackutils.common.config.integration.MenuSection;
+import de.alaoli.games.minecraft.mods.modpackutils.common.config.Settings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiIngameMenu;
@@ -44,7 +44,7 @@ abstract public class MenuEventHandler
     protected static GuiButton initChangelogButton(List<GuiButton> buttons )
     {
         GuiButton button = new GuiButton(
-            MenuSection.changelogButtonId, 0, 0,
+            Settings.menu.changelogButtonId, 0, 0,
             I18n.format( "modpackutils:gui.changelog.title" ) );
         button.setWidth( 98 );
         buttons.add( button );
@@ -55,7 +55,7 @@ abstract public class MenuEventHandler
     protected static GuiButton initBugreportButton( List<GuiButton> buttons )
     {
         GuiButton button = new GuiButton(
-            MenuSection.bugreportButtonId, 0, 0,
+            Settings.menu.bugreportButtonId, 0, 0,
             I18n.format( "modpackutils:gui.bugreport.title" ) );
         button.setWidth( 98 );
         buttons.add( button );
@@ -77,11 +77,11 @@ abstract public class MenuEventHandler
         {
             GuiButton button = event.getButton();
 
-            if( button.id == MenuSection.changelogButtonId )
+            if( button.id == Settings.menu.changelogButtonId )
             {
                 Minecraft.getMinecraft().displayGuiScreen( new ChangelogScreen() );
             }
-            else if( button.id == MenuSection.bugreportButtonId )
+            else if( button.id == Settings.menu.bugreportButtonId )
             {
                 Minecraft.getMinecraft().displayGuiScreen( new IssueScreen() );
             }
