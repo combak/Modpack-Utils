@@ -53,18 +53,22 @@ public final class Settings
 
     public static class Menu
     {
+        @Config.RequiresMcRestart
         @Config.LangKey( Constants.Lang.CONFIG_MENU_MAIN_ENABLED )
         @Config.Comment( "Enables the main menu button integration." )
         public boolean mainEnabled = true;
 
+        @Config.RequiresMcRestart
         @Config.LangKey( Constants.Lang.CONFIG_MENU_INGAME_ENABLED )
         @Config.Comment( "Enables the game menu button integration." )
         public boolean ingameEnabled = true;
 
+        @Config.RequiresMcRestart
         @Config.LangKey( Constants.Lang.CONFIG_MENU_CHANGELOG_BUTTONID )
         @Config.Comment( "Only change the changelog button id, if there's any id conflict." )
         public int changelogButtonId = 1000;
 
+        @Config.RequiresMcRestart
         @Config.LangKey( Constants.Lang.CONFIG_MENU_BUGREPORT_BUTTONID )
         @Config.Comment( "Only change the bug report button id, if there's any id conflict." )
         public int bugreportButtonId = 1001;
@@ -72,6 +76,7 @@ public final class Settings
 
     public static class Command
     {
+        @Config.RequiresMcRestart
         @Config.LangKey( Constants.Lang.CONFIG_COMMAND_NAME )
         @Config.Comment( "Only change the command name, if there're any conflict." )
         public String name = "mpu";
@@ -79,6 +84,7 @@ public final class Settings
 
     public static class Changelog
     {
+        @Config.RequiresMcRestart
         @Config.LangKey( Constants.Lang.ENABLED )
         @Config.Comment( "Enables the changelog gui." )
         public boolean enabled = true;
@@ -93,6 +99,7 @@ public final class Settings
 
     public static class Webservices
     {
+        @Config.RequiresMcRestart
         @Config.LangKey( Constants.Lang.ENABLED )
         @Config.Comment( "Enables webservice function, requires modpack-webservice server as backend." )
         public  boolean enabled = false;
@@ -106,6 +113,7 @@ public final class Settings
 
         public static class Github
         {
+            @Config.RequiresMcRestart
             @Config.LangKey( Constants.Lang.ENABLED )
             @Config.Comment( "Enables webservice github function, requires modpack-webservice server as backend." )
             public boolean enabled = false;
