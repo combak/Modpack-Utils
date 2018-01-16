@@ -18,7 +18,7 @@
  ************************************************************************************************************ */
 package de.alaoli.games.minecraft.mods.modpackutils.client.event.handler.integration;
 
-import de.alaoli.games.minecraft.mods.modpackutils.common.config.integration.MenuSection;
+import de.alaoli.games.minecraft.mods.modpackutils.common.config.Settings;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.GuiScreen;
@@ -28,7 +28,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.List;
 
-public class OptionsMenuEventHandler extends MenuEventHandler
+public class IngameMenuEventHandler extends MenuEventHandler
 {
 	/* **************************************************************************************************************
 	 * Attribute
@@ -36,18 +36,18 @@ public class OptionsMenuEventHandler extends MenuEventHandler
 
     private static class LazyHolder
     {
-        private static final OptionsMenuEventHandler INSTANCE = new OptionsMenuEventHandler();
+        private static final IngameMenuEventHandler INSTANCE = new IngameMenuEventHandler();
     }
 
 	/* **************************************************************************************************************
 	 * Method
 	 ************************************************************************************************************** */
 
-    private OptionsMenuEventHandler() {}
+    private IngameMenuEventHandler() {}
 
     public static void register()
     {
-        MinecraftForge.EVENT_BUS.register( OptionsMenuEventHandler.LazyHolder.INSTANCE );
+        MinecraftForge.EVENT_BUS.register( IngameMenuEventHandler.LazyHolder.INSTANCE );
     }
 
     /* **************************************************************************************************************
@@ -64,15 +64,15 @@ public class OptionsMenuEventHandler extends MenuEventHandler
             List<GuiButton> buttons = event.getButtonList();
 
             GuiButton changelogButton = buttons.stream()
-                .filter( button -> button.id == MenuSection.changelogButtonId )
+                .filter( button -> button.id == Settings.menu.changelogButtonId )
                 .reduce( (button,otherButton) -> {
-                    throw new IllegalStateException( "Duplicated button id '" + MenuSection.changelogButtonId + "' found." ); })
+                    throw new IllegalStateException( "Duplicated button id '" + Settings.menu.changelogButtonId + "' found." ); })
                 .orElseGet( () -> initChangelogButton( buttons ) );
 
             GuiButton bugreportButton = buttons.stream()
-                .filter( button -> button.id == MenuSection.bugreportButtonId )
+                .filter( button -> button.id == Settings.menu.bugreportButtonId )
                 .reduce( (button,otherButton) -> {
-                    throw new IllegalStateException( "Duplicated button id '" + MenuSection.bugreportButtonId + "' found." ); })
+                    throw new IllegalStateException( "Duplicated button id '" + Settings.menu.bugreportButtonId + "' found." ); })
                 .orElseGet( () -> initBugreportButton( buttons ) );
 
             changelogButton.x = screen.width/2 - 202;
