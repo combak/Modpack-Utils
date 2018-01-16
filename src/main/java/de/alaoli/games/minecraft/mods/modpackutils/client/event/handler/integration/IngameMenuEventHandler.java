@@ -63,23 +63,21 @@ public class IngameMenuEventHandler extends MenuEventHandler
         {
             List<GuiButton> buttons = event.getButtonList();
 
-            GuiButton changelogButton = buttons.stream()
-                .filter( button -> button.id == Settings.menu.changelogButtonId )
-                .reduce( (button,otherButton) -> {
-                    throw new IllegalStateException( "Duplicated button id '" + Settings.menu.changelogButtonId + "' found." ); })
-                .orElseGet( () -> initChangelogButton( buttons ) );
+            if( Settings.changelog.enabled )
+            {
+                GuiButton changelogButton = getChangelogButton( buttons );
 
-            GuiButton bugreportButton = buttons.stream()
-                .filter( button -> button.id == Settings.menu.bugreportButtonId )
-                .reduce( (button,otherButton) -> {
-                    throw new IllegalStateException( "Duplicated button id '" + Settings.menu.bugreportButtonId + "' found." ); })
-                .orElseGet( () -> initBugreportButton( buttons ) );
+                changelogButton.x = screen.width / 2 - 202;
+                changelogButton.y = screen.height / 4 + 80;
+            }
 
-            changelogButton.x = screen.width/2 - 202;
-            changelogButton.y = screen.height/4 + 80;
+            if( Settings.isBugreportEnabled() )
+            {
+                GuiButton bugreportButton = getBugreportButton( buttons );
 
-            bugreportButton.x = screen.width/2 + 104;
-            bugreportButton.y = screen.height/4 + 80;
+                bugreportButton.x = screen.width / 2 + 104;
+                bugreportButton.y = screen.height / 4 + 80;
+            }
         }
     }
 }

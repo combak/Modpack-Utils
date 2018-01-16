@@ -35,13 +35,13 @@ import java.util.List;
 /**
  * @author DerOli82 <https://github.com/DerOli82>
  */
-abstract public class MenuEventHandler
+public abstract class MenuEventHandler
 {
 	/* **************************************************************************************************************
 	 * Method
 	 ************************************************************************************************************** */
 
-    protected static GuiButton initChangelogButton(List<GuiButton> buttons )
+    private static GuiButton initChangelogButton(List<GuiButton> buttons)
     {
         GuiButton button = new GuiButton(
             Settings.menu.changelogButtonId, 0, 0,
@@ -52,7 +52,7 @@ abstract public class MenuEventHandler
         return button;
     }
 
-    protected static GuiButton initBugreportButton( List<GuiButton> buttons )
+    private static GuiButton initBugreportButton(List<GuiButton> buttons)
     {
         GuiButton button = new GuiButton(
             Settings.menu.bugreportButtonId, 0, 0,
@@ -61,6 +61,26 @@ abstract public class MenuEventHandler
         buttons.add( button );
 
         return button;
+    }
+
+    static GuiButton getChangelogButton( List<GuiButton> buttons )
+    {
+        return buttons.stream()
+            .filter( button -> button.id == Settings.menu.changelogButtonId )
+            .reduce( (button, otherButton) -> {
+                throw new IllegalStateException( "Duplicated button id '" + Settings.menu.changelogButtonId + "' found." );
+            })
+            .orElseGet(() -> initChangelogButton( buttons ));
+    }
+
+    static GuiButton getBugreportButton( List<GuiButton> buttons )
+    {
+        return buttons.stream()
+            .filter( button -> button.id == Settings.menu.bugreportButtonId )
+            .reduce( (button, otherButton) -> {
+                throw new IllegalStateException( "Duplicated button id '" + Settings.menu.bugreportButtonId + "' found." );
+            })
+            .orElseGet(() -> initBugreportButton( buttons ));
     }
 
     /* **************************************************************************************************************
