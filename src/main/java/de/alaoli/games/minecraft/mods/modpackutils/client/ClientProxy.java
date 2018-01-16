@@ -22,6 +22,7 @@ import de.alaoli.games.minecraft.mods.lib.common.command.CommandGroup;
 import de.alaoli.games.minecraft.mods.modpackutils.client.command.BugReportCommand;
 import de.alaoli.games.minecraft.mods.modpackutils.client.command.ChangelogCommand;
 import de.alaoli.games.minecraft.mods.modpackutils.client.command.MPUCommandGroup;
+import de.alaoli.games.minecraft.mods.modpackutils.client.event.handler.ScreenEventHandler;
 import de.alaoli.games.minecraft.mods.modpackutils.client.event.handler.integration.IngameMenuEventHandler;
 import de.alaoli.games.minecraft.mods.modpackutils.client.event.handler.integration.MainMenuEventHandler;
 import de.alaoli.games.minecraft.mods.modpackutils.client.event.handler.webservices.GithubEventHandler;
@@ -48,15 +49,19 @@ public class ClientProxy extends CommonProxy
 		CommandGroup commands = new MPUCommandGroup();
 		
 		if(Settings.changelog.enabled ) { commands.addComponent( new ChangelogCommand() ); }
-
-		if( Settings.webservices.enabled && Settings.webservices.github.enabled )
+		if( Settings.isBugreportEnabled() )
 		{
 			GithubEventHandler.register();
 			commands.addComponent( new BugReportCommand() );
 		}
-		ClientCommandHandler.instance.registerCommand( commands );
 
-		if( Settings.menu.mainEnabled ) { MainMenuEventHandler.register(); }
-		if( Settings.menu.ingameEnabled ) { IngameMenuEventHandler.register(); }
+		if( Settings.isAnyFeatureAvailable() )
+		{
+			ClientCommandHandler.instance.registerCommand( commands );
+			ScreenEventHandler.register();
+
+			if( Settings.menu.mainEnabled ) { MainMenuEventHandler.register(); }
+			if( Settings.menu.ingameEnabled ) { IngameMenuEventHandler.register(); }
+		}
 	}
 }
