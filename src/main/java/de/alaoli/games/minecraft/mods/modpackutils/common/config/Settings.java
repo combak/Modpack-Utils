@@ -128,4 +128,18 @@ public final class Settings
             }
         }
     }
+
+    /* **************************************************************************************************************
+     * Method
+     ************************************************************************************************************** */
+
+    public static boolean isBugreportEnabled()
+    {
+        return webservices.enabled && webservices.github.enabled;
+    }
+
+    public static boolean isAnyFeatureAvailable()
+    {
+        return changelog.enabled || isBugreportEnabled();
+    }
 }
