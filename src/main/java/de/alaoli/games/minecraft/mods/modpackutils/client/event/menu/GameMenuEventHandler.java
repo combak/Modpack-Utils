@@ -16,64 +16,68 @@
  *
  * https://www.gnu.org/licenses/lgpl-3.0.html
  ************************************************************************************************************ */
-package de.alaoli.games.minecraft.mods.modpackutils.client.event.handler;
+package de.alaoli.games.minecraft.mods.modpackutils.client.event.menu;
 
-import de.alaoli.games.minecraft.mods.lib.ui.Screen;
-import de.alaoli.games.minecraft.mods.modpackutils.client.event.OpenScreenEvent;
-import net.minecraft.client.Minecraft;
+import de.alaoli.games.minecraft.mods.modpackutils.common.config.Settings;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiIngameMenu;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 
-/**
- * Only required for opening screens with commands.
- *
- * @author DerOli82 <https://github.com/DerOli82>
- */
-public class ScreenEventHandler 
+import java.util.List;
+
+public class GameMenuEventHandler extends MenuEventHandler
 {
 	/* **************************************************************************************************************
 	 * Attribute
 	 ************************************************************************************************************** */
 
-	private static class LazyHolder
-	{
-		private static final ScreenEventHandler INSTANCE = new ScreenEventHandler();
-	}
-	private Screen screen;
-	
+    private static class LazyHolder
+    {
+        private static final GameMenuEventHandler INSTANCE = new GameMenuEventHandler();
+    }
+
 	/* **************************************************************************************************************
 	 * Method
 	 ************************************************************************************************************** */
-	
-	private ScreenEventHandler() {}
 
-	public static void register()
-	{
-		MinecraftForge.EVENT_BUS.register( LazyHolder.INSTANCE );
-	}
+    private GameMenuEventHandler() {}
 
-	/* **************************************************************************************************************
+    public static void register()
+    {
+        MinecraftForge.EVENT_BUS.register( GameMenuEventHandler.LazyHolder.INSTANCE );
+    }
+
+    /* **************************************************************************************************************
 	 * Method - MinecraftForge Events
 	 ************************************************************************************************************** */
 
-	@SubscribeEvent
-	public void openScreenEvent( ClientTickEvent event )
-	{
-		if( ( this.screen != null ) &&
-			( event.phase == TickEvent.Phase.START ) &&
-			( !Minecraft.getMinecraft().isGamePaused() ) && 
-			( Minecraft.getMinecraft().player != null ) )
-		{
-			Minecraft.getMinecraft().displayGuiScreen( this.screen );
-			this.screen = null;
-		}
-	}
-	
-	@SubscribeEvent
-	public void onOpenScreenEvent( OpenScreenEvent event )
-	{
-		this.screen = event.screen;
-	}	
+    @SubscribeEvent
+    public void initEvent( GuiScreenEvent.InitGuiEvent event )
+    {
+        GuiScreen screen = event.getGui();
+
+        if( screen instanceof GuiIngameMenu )
+        {
+            List<GuiButton> buttons = event.getButtonList();
+
+            if( Settings.changelog.enabled )
+            {
+                GuiButton changelogButton = getChangelogButton( buttons );
+
+                changelogButton.x = screen.width / 2 - 202;
+                changelogButton.y = screen.height / 4 + 80;
+            }
+
+            if( Settings.isBugreportEnabled() )
+            {
+                GuiButton bugreportButton = getBugreportButton( buttons );
+
+                bugreportButton.x = screen.width / 2 + 104;
+                bugreportButton.y = screen.height / 4 + 80;
+            }
+        }
+    }
 }

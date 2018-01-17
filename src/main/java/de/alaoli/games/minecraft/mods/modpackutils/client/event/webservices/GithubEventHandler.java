@@ -1,13 +1,13 @@
-package de.alaoli.games.minecraft.mods.modpackutils.client.event.handler.webservices;
+package de.alaoli.games.minecraft.mods.modpackutils.client.event.webservices;
 
 import java.util.concurrent.Future;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 
-import de.alaoli.games.minecraft.mods.modpackutils.client.event.webservices.IssueCallbackEvent;
-import de.alaoli.games.minecraft.mods.modpackutils.client.event.webservices.SendIssueEvent;
 import de.alaoli.games.minecraft.mods.modpackutils.client.network.github.IssueCallback;
 import de.alaoli.games.minecraft.mods.modpackutils.common.config.Settings;
 import de.alaoli.games.minecraft.mods.modpackutils.common.data.github.Issue;
@@ -23,9 +23,8 @@ public class GithubEventHandler
 	
 	private static class LazyHolder
 	{
-		public static final GithubEventHandler INSTANCE = new GithubEventHandler();
+		private static final GithubEventHandler INSTANCE = new GithubEventHandler();
 	}
-	
 	private Issue pendingIssue;
 	
 	/********************************************************************************
@@ -33,12 +32,6 @@ public class GithubEventHandler
 	 ********************************************************************************/
 	
 	private GithubEventHandler() {}
-	
-	public static GithubEventHandler getInstance()
-	{
-		return LazyHolder.INSTANCE;
-	}
-	
 	public static void register()
 	{
 		MinecraftForge.EVENT_BUS.register( LazyHolder.INSTANCE );
@@ -85,11 +78,12 @@ public class GithubEventHandler
 	public void onSendIssueEvent( SendIssueEvent event )
 	{
 		this.pendingIssue = event.issue;
-		
+		Gson gson = new GsonBuilder().create();
+
 		Future<HttpResponse<JsonNode>> response = Unirest.post(Settings.webservices.url + "/issue" )
 			.header( "Accept", "application/json" )
 			.header( "Content-Type", "application/json" )
-			//.body( event.issue.serialize().toString() )
-			.asJsonAsync( new IssueCallback( event.player, event.issue ) );	
+			.body( gson.toJson( event.issue ) )
+			.asJsonAsync( new IssueCallback( event.player, event.issue ) );
 	}
 }

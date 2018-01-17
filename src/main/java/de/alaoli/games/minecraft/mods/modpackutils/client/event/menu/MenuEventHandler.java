@@ -16,7 +16,7 @@
  *
  * https://www.gnu.org/licenses/lgpl-3.0.html
  ************************************************************************************************************ */
-package de.alaoli.games.minecraft.mods.modpackutils.client.event.handler.integration;
+package de.alaoli.games.minecraft.mods.modpackutils.client.event.menu;
 
 import de.alaoli.games.minecraft.mods.modpackutils.client.ui.ChangelogScreen;
 import de.alaoli.games.minecraft.mods.modpackutils.client.ui.github.IssueScreen;

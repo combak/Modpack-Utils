@@ -16,11 +16,11 @@
  *
  * https://www.gnu.org/licenses/lgpl-3.0.html
  ************************************************************************************************************ */
-package de.alaoli.games.minecraft.mods.modpackutils.client.event.handler.integration;
+package de.alaoli.games.minecraft.mods.modpackutils.client.event.menu;
 
 import de.alaoli.games.minecraft.mods.modpackutils.common.config.Settings;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiIngameMenu;
+import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -28,7 +28,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.List;
 
-public class IngameMenuEventHandler extends MenuEventHandler
+public class MainMenuEventHandler extends MenuEventHandler
 {
 	/* **************************************************************************************************************
 	 * Attribute
@@ -36,18 +36,18 @@ public class IngameMenuEventHandler extends MenuEventHandler
 
     private static class LazyHolder
     {
-        private static final IngameMenuEventHandler INSTANCE = new IngameMenuEventHandler();
+        private static final MainMenuEventHandler INSTANCE = new MainMenuEventHandler();
     }
 
 	/* **************************************************************************************************************
 	 * Method
 	 ************************************************************************************************************** */
 
-    private IngameMenuEventHandler() {}
+    private MainMenuEventHandler() {}
 
     public static void register()
     {
-        MinecraftForge.EVENT_BUS.register( IngameMenuEventHandler.LazyHolder.INSTANCE );
+        MinecraftForge.EVENT_BUS.register( MainMenuEventHandler.LazyHolder.INSTANCE );
     }
 
     /* **************************************************************************************************************
@@ -59,7 +59,7 @@ public class IngameMenuEventHandler extends MenuEventHandler
     {
         GuiScreen screen = event.getGui();
 
-        if( screen instanceof GuiIngameMenu )
+        if( screen instanceof GuiMainMenu )
         {
             List<GuiButton> buttons = event.getButtonList();
 
@@ -68,7 +68,7 @@ public class IngameMenuEventHandler extends MenuEventHandler
                 GuiButton changelogButton = getChangelogButton( buttons );
 
                 changelogButton.x = screen.width / 2 - 202;
-                changelogButton.y = screen.height / 4 + 80;
+                changelogButton.y = screen.height / 4 + 96;
             }
 
             if( Settings.isBugreportEnabled() )
@@ -76,7 +76,7 @@ public class IngameMenuEventHandler extends MenuEventHandler
                 GuiButton bugreportButton = getBugreportButton( buttons );
 
                 bugreportButton.x = screen.width / 2 + 104;
-                bugreportButton.y = screen.height / 4 + 80;
+                bugreportButton.y = screen.height / 4 + 96;
             }
         }
     }

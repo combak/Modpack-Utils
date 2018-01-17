@@ -16,68 +16,63 @@
  *
  * https://www.gnu.org/licenses/lgpl-3.0.html
  ************************************************************************************************************ */
-package de.alaoli.games.minecraft.mods.modpackutils.client.event.handler.integration;
+package de.alaoli.games.minecraft.mods.modpackutils.client.event;
 
-import de.alaoli.games.minecraft.mods.modpackutils.common.config.Settings;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiMainMenu;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraftforge.client.event.GuiScreenEvent;
+import de.alaoli.games.minecraft.mods.lib.ui.Screen;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 
-import java.util.List;
-
-public class MainMenuEventHandler extends MenuEventHandler
+/**
+ * Only required for opening screens with commands.
+ *
+ * @author DerOli82 <https://github.com/DerOli82>
+ */
+public class ScreenEventHandler 
 {
 	/* **************************************************************************************************************
 	 * Attribute
 	 ************************************************************************************************************** */
 
-    private static class LazyHolder
-    {
-        private static final MainMenuEventHandler INSTANCE = new MainMenuEventHandler();
-    }
-
+	private static class LazyHolder
+	{
+		private static final ScreenEventHandler INSTANCE = new ScreenEventHandler();
+	}
+	private Screen screen;
+	
 	/* **************************************************************************************************************
 	 * Method
 	 ************************************************************************************************************** */
+	
+	private ScreenEventHandler() {}
 
-    private MainMenuEventHandler() {}
+	public static void register()
+	{
+		MinecraftForge.EVENT_BUS.register( LazyHolder.INSTANCE );
+	}
 
-    public static void register()
-    {
-        MinecraftForge.EVENT_BUS.register( MainMenuEventHandler.LazyHolder.INSTANCE );
-    }
-
-    /* **************************************************************************************************************
+	/* **************************************************************************************************************
 	 * Method - MinecraftForge Events
 	 ************************************************************************************************************** */
 
-    @SubscribeEvent
-    public void initEvent( GuiScreenEvent.InitGuiEvent event )
-    {
-        GuiScreen screen = event.getGui();
-
-        if( screen instanceof GuiMainMenu )
-        {
-            List<GuiButton> buttons = event.getButtonList();
-
-            if( Settings.changelog.enabled )
-            {
-                GuiButton changelogButton = getChangelogButton( buttons );
-
-                changelogButton.x = screen.width / 2 - 202;
-                changelogButton.y = screen.height / 4 + 96;
-            }
-
-            if( Settings.isBugreportEnabled() )
-            {
-                GuiButton bugreportButton = getBugreportButton( buttons );
-
-                bugreportButton.x = screen.width / 2 + 104;
-                bugreportButton.y = screen.height / 4 + 96;
-            }
-        }
-    }
+	@SubscribeEvent
+	public void openScreenEvent( ClientTickEvent event )
+	{
+		if( ( this.screen != null ) &&
+			( event.phase == TickEvent.Phase.START ) &&
+			( !Minecraft.getMinecraft().isGamePaused() ) && 
+			( Minecraft.getMinecraft().player != null ) )
+		{
+			Minecraft.getMinecraft().displayGuiScreen( this.screen );
+			this.screen = null;
+		}
+	}
+	
+	@SubscribeEvent
+	public void onOpenScreenEvent( OpenScreenEvent event )
+	{
+		this.screen = event.screen;
+	}	
 }
