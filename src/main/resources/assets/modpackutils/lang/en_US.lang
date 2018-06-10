@@ -1,13 +1,17 @@
-modpackutils:gui.changelog.title=Changelog
+modpackutils:gui.changelog=Changelog
 modpackutils:gui.changelog.notfound=Changelog not found
 modpackutils:gui.changelog.isempty=Changelog is empty
 
-modpackutils:gui.bugreport.title=Bug Report
-modpackutils:gui.bugreport.label.name=Name: 
-modpackutils:gui.bugreport.label.title=Title: 
-modpackutils:gui.bugreport.label.description=Description:
-modpackutils:gui.bugreport.placeholder.name=<Enter your playername>
-modpackutils:gui.bugreport.placeholder.title=<What's your problem?>
-modpackutils:gui.bugreport.placeholder.description=<How did the problem occur?>
-modpackutils:gui.bugreport.button.send=Send
-modpackutils:gui.bugreport.button.cancel=Cancel
+modpackutils:gui.bugreport=Bug Report
+
+modpackutils:gui.bugreport.name.label=Name:
+modpackutils:gui.bugreport.name.placeholder=<Enter your playername>
+
+modpackutils:gui.bugreport.title.label=Title:
+modpackutils:gui.bugreport.title.placeholder=<What's your problem?>
+
+modpackutils:gui.bugreport.desc.label=Description:
+modpackutils:gui.bugreport.desc.placeholder=<How did the problem occur?>
+
+modpackutils:gui.bugreport.send=Send
+modpackutils:gui.bugreport.cancel=Cancel
