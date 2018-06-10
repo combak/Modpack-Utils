@@ -1,7 +1,7 @@
 /* *************************************************************************************************************
  * Copyright (c) 2017 DerOli82 <https://github.com/DerOli82>
  *
- * This program is free software: you can redistribute it and/or modify
+ * This program is free software: you can redistribute it and/or toBuilder
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -11,17 +11,18 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a toBuilder of the GNU Lesser General Public License
  * along with this program.  If not, see:
  *
  * https://www.gnu.org/licenses/lgpl-3.0.html
  ************************************************************************************************************ */
 package de.alaoli.games.minecraft.mods.modpackutils.client.event.menu;
 
+
+import de.alaoli.games.minecraft.mods.lib.ui.screen.ScreenManager;
 import de.alaoli.games.minecraft.mods.modpackutils.client.ui.ChangelogScreen;
-import de.alaoli.games.minecraft.mods.modpackutils.client.ui.github.IssueScreen;
+import de.alaoli.games.minecraft.mods.modpackutils.client.ui.BugreportScreen;
 import de.alaoli.games.minecraft.mods.modpackutils.common.config.Settings;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.GuiMainMenu;
@@ -45,7 +46,7 @@ public abstract class MenuEventHandler
     {
         GuiButton button = new GuiButton(
             Settings.menu.changelogButtonId, 0, 0,
-            I18n.format( "modpackutils:gui.changelog.title" ) );
+            I18n.format( "modpackutils:gui.changelog" ) );
         button.setWidth( 98 );
         buttons.add( button );
 
@@ -56,7 +57,7 @@ public abstract class MenuEventHandler
     {
         GuiButton button = new GuiButton(
             Settings.menu.bugreportButtonId, 0, 0,
-            I18n.format( "modpackutils:gui.bugreport.title" ) );
+            I18n.format( "modpackutils:gui.bugreport" ) );
         button.setWidth( 98 );
         buttons.add( button );
 
@@ -97,13 +98,24 @@ public abstract class MenuEventHandler
         {
             GuiButton button = event.getButton();
 
-            if( button.id == Settings.menu.changelogButtonId )
+            try
             {
-                Minecraft.getMinecraft().displayGuiScreen( new ChangelogScreen() );
+                if( button.id == Settings.menu.changelogButtonId )
+                {
+                    //Minecraft.getMinecraft().displayGuiScreen( new ChangelogScreen() );
+                    //ScreenManager.show( new ChangelogScreen() );
+                    ScreenManager.show( ChangelogScreen.class );
+                }
+                else if( button.id == Settings.menu.bugreportButtonId )
+                {
+                    //Minecraft.getMinecraft().displayGuiScreen( new BugreportScreen() );
+                    //ScreenManager.show( new BugreportScreen() );
+                    ScreenManager.show( BugreportScreen.class );
+                }
             }
-            else if( button.id == Settings.menu.bugreportButtonId )
+            catch( InstantiationException | IllegalAccessException e )
             {
-                Minecraft.getMinecraft().displayGuiScreen( new IssueScreen() );
+                e.printStackTrace();
             }
         }
     }
