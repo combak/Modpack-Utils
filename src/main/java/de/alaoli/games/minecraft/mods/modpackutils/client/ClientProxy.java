@@ -1,7 +1,7 @@
 /* *************************************************************************************************************
  * Copyright (c) 2018 DerOli82 <https://github.com/DerOli82>
  *
- * This program is free software: you can redistribute it and/or modify
+ * This program is free software: you can redistribute it and/or toBuilder
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a toBuilder of the GNU Lesser General Public License
  * along with this program.  If not, see:
  *
  * https://www.gnu.org/licenses/lgpl-3.0.html
@@ -19,13 +19,14 @@
 package de.alaoli.games.minecraft.mods.modpackutils.client;
 
 import de.alaoli.games.minecraft.mods.lib.common.command.CommandGroup;
+
+import de.alaoli.games.minecraft.mods.lib.ui.UI;
 import de.alaoli.games.minecraft.mods.modpackutils.client.command.BugReportCommand;
 import de.alaoli.games.minecraft.mods.modpackutils.client.command.ChangelogCommand;
 import de.alaoli.games.minecraft.mods.modpackutils.client.command.MPUCommandGroup;
-import de.alaoli.games.minecraft.mods.modpackutils.client.event.handler.ScreenEventHandler;
-import de.alaoli.games.minecraft.mods.modpackutils.client.event.handler.integration.IngameMenuEventHandler;
-import de.alaoli.games.minecraft.mods.modpackutils.client.event.handler.integration.MainMenuEventHandler;
-import de.alaoli.games.minecraft.mods.modpackutils.client.event.handler.webservices.GithubEventHandler;
+import de.alaoli.games.minecraft.mods.modpackutils.client.event.menu.GameMenuEventHandler;
+import de.alaoli.games.minecraft.mods.modpackutils.client.event.menu.MainMenuEventHandler;
+import de.alaoli.games.minecraft.mods.modpackutils.client.event.webservices.GithubEventHandler;
 import de.alaoli.games.minecraft.mods.modpackutils.common.CommonProxy;
 
 import de.alaoli.games.minecraft.mods.modpackutils.common.config.Settings;
@@ -46,6 +47,8 @@ public class ClientProxy extends CommonProxy
 	{
 		super.onFMLInitializationEvent( event );
 
+		if( !Settings.isAnyFeatureAvailable() ) { return; }
+
 		CommandGroup commands = new MPUCommandGroup();
 		
 		if(Settings.changelog.enabled ) { commands.addComponent( new ChangelogCommand() ); }
@@ -54,14 +57,10 @@ public class ClientProxy extends CommonProxy
 			GithubEventHandler.register();
 			commands.addComponent( new BugReportCommand() );
 		}
+		ClientCommandHandler.instance.registerCommand( commands );
+		UI.init();
 
-		if( Settings.isAnyFeatureAvailable() )
-		{
-			ClientCommandHandler.instance.registerCommand( commands );
-			ScreenEventHandler.register();
-
-			if( Settings.menu.mainEnabled ) { MainMenuEventHandler.register(); }
-			if( Settings.menu.ingameEnabled ) { IngameMenuEventHandler.register(); }
-		}
+		if( Settings.menu.mainEnabled ) { MainMenuEventHandler.register(); }
+		if( Settings.menu.ingameEnabled ) { GameMenuEventHandler.register(); }
 	}
 }
