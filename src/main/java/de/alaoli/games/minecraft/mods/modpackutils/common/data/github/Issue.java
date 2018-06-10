@@ -1,68 +1,66 @@
 package de.alaoli.games.minecraft.mods.modpackutils.common.data.github;
 
+import com.google.gson.annotations.Expose;
 import de.alaoli.games.minecraft.mods.modpackutils.common.config.Settings;
 
-public class Issue //implements JsonSerializable
+public class Issue
 {
-    /******************************************************************************************
-     * Attribute
-     ******************************************************************************************/
+	/* **************************************************************************************************************
+	 * Attribute
+	 ************************************************************************************************************** */
 
 	/**
 	 * The token of the related repository.
 	 */
-	public final String repository = Settings.webservices.github.repository;
+	@Expose( deserialize = false )
+	private final String repository = Settings.webservices.github.repository;
 	
 	/**
 	 * The author of the issue.
 	 */
-	public final String name;
+	@Expose( deserialize = false )
+	private final String name;
 	
 	/**
 	 * The title of the issue
 	 */
-	public final String title;
+	@Expose( deserialize = false )
+	private final String title;
 	
 	/**
 	 * The contents of the issue.
 	 */
-	public final String description;
+	@Expose( deserialize = false )
+	private final String description;
 
-    /******************************************************************************************
-     * Method
-     ******************************************************************************************/
-	
-	public Issue( String title, String description )
-	{
-		this.name = null;
-		this.title = title;
-		this.description = description;
-	}
-	
+	/* **************************************************************************************************************
+	 * Method
+	 ************************************************************************************************************** */
+
 	public Issue( String name, String title, String description )
 	{
 		this.name = name;
 		this.title = title;
 		this.description = description;
 	}
-	
-    /******************************************************************************************
-     * Method - Implement JsonSerializable
-     ******************************************************************************************
 
-	@Override
-	public JsonValue serialize() throws DataException 
+	public String getRepository()
 	{
-		JsonObject json = new JsonObject();
-		
-		json.add( "repository", this.repository );
-		json.add( "name", this.name );
-		json.add( "title", this.title );
-		json.add( "description", this.description );
-		
-		return json;
+		return this.repository;
 	}
 
-	@Override
-	public void deserialize( JsonValue json ) throws DataException { /* Write only * }*/
+	public String getName()
+	{
+		return this.name;
+	}
+
+	public String getTitle()
+	{
+		return this.title;
+	}
+
+	public String getDescription()
+	{
+		return this.description;
+	}
 }
