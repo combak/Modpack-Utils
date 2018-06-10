@@ -31,9 +31,11 @@ import de.alaoli.games.minecraft.mods.lib.ui.state.State;
 import de.alaoli.games.minecraft.mods.lib.ui.util.Align;
 import de.alaoli.games.minecraft.mods.lib.ui.util.Color;
 import de.alaoli.games.minecraft.mods.modpackutils.Const;
+import de.alaoli.games.minecraft.mods.modpackutils.client.event.webservices.SendIssueEvent;
 import de.alaoli.games.minecraft.mods.modpackutils.common.data.github.Issue;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.common.MinecraftForge;
 
 /**
  * @author DerOli82 <https://github.com/DerOli82>
@@ -114,14 +116,12 @@ public class BugreportScreen extends Screen implements MouseListener, KeyboardLi
 
 	private void sendIssue()
 	{
-		/*
 		Issue issue = new Issue(
-			this.name.getText().orElse( "" ),
-			this.title.getText().orElse( ""),
-			this.description.getText().orElse( "" )
+			this.textFieldName.getText().toString(),
+			this.textFieldTitle.getText().toString(),
+			this.textAreaDesc.getText().toString()
 		);
 		MinecraftForge.EVENT_BUS.post( new SendIssueEvent( this.player, issue ) );
-		*/
 	}
 
 	/* **************************************************************************************************************
@@ -243,7 +243,8 @@ public class BugreportScreen extends Screen implements MouseListener, KeyboardLi
 		}
 		else if( event.getSrcComponent() == this.buttonSend )
 		{
-
+			this.sendIssue();
+			ScreenManager.hide();
 		}
 	}
 
