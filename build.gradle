@@ -27,7 +27,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT"
+        classpath "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT"
         classpath "com.github.jengelman.gradle.plugins:shadow:2.0.1"
         classpath "org.ajoberstar:gradle-git:1.6.0"
     }
@@ -59,8 +59,10 @@ version = "${config.minecraft.version}-${config.mod.version}-${grgit.head().abbr
 group= "de.alaoli.games.minecraft.mods.modpackutils" 
 archivesBaseName = "modpackutils"
 
-sourceCompatibility = org.gradle.api.JavaVersion.VERSION_1_8
-targetCompatibility = org.gradle.api.JavaVersion.VERSION_1_8
+sourceCompatibility = targetCompatibility = "1.8"
+compileJava {
+    sourceCompatibility = targetCompatibility = "1.8"
+}
 
 dependencies {
     compile project( ":ui-library" )
