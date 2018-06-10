@@ -1,7 +1,7 @@
 /* *************************************************************************************************************
  * Copyright (c) 2018 DerOli82 <https://github.com/DerOli82>
  *
- * This program is free software: you can redistribute it and/or modify
+ * This program is free software: you can redistribute it and/or toBuilder
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public License
+ * You should have received a toBuilder of the GNU Lesser General Public License
  * along with this program.  If not, see:
  *
  * https://www.gnu.org/licenses/lgpl-3.0.html
@@ -30,14 +30,14 @@ import java.util.Optional;
 /**
  * @author DerOli82 <https://github.com/DerOli82>
  */
-@Mod( modid = Constants.Mod.ID, name = Constants.Mod.NAME, version = Constants.Mod.VERSION, clientSideOnly = true )
+@Mod( modid = Const.Mod.ID, name = Const.Mod.NAME, version = Const.Mod.VERSION, clientSideOnly = true )
 public final class ModpackUtils
 {
     /* **************************************************************************************************************
      * Attribute
 	 ************************************************************************************************************** */
 
-    @SidedProxy( clientSide = Constants.Mod.PROXY_CLIENT, serverSide = Constants.Mod.PROXY_COMMON )
+    @SidedProxy( clientSide = Const.Mod.PROXY_CLIENT, serverSide = Const.Mod.PROXY_COMMON )
     public static Proxy proxy;
     public static Logger logger;
 
