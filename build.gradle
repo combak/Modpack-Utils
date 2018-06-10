@@ -66,14 +66,12 @@ dependencies {
     compile project( ":ui-library" )
     compile project( ":common-library" )
     compile "com.mashape.unirest:unirest-java:${config.unirest.version}"
-    compile "com.eclipsesource.minimal-json:minimal-json:${config.minimaljson.version}"
 }
 
 shadowJar {
     relocate "org.json", "libs.org.json"
     relocate "org.apache", "libs.org.apache"
     relocate "com.mashape", "libs.com.mashape"
-    relocate "com.eclipsesource", "libs.com.eclipsesource"
     relocate "de.alaoli.games.minecraft.mods.lib", "libs.de.alaoli.games.minecraft.mods.lib"
 }
 
