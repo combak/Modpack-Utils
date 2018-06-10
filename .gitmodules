@@ -1,8 +1,8 @@
-[submodule "lib/common-library"]
-	path = lib/common-library
+[submodule "libs/common-library"]
+	path = libs/common-library
 	url = https://github.com/DerOli82/common-library
-	branch = 1.11.2
-[submodule "lib/ui-library"]
-	path = lib/ui-library
+	branch = master
+[submodule "libs/ui-library"]
+	path = libs/ui-library
 	url = https://github.com/DerOli82/ui-library
     branch = master
