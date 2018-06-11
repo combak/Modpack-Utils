@@ -1,0 +1,6 @@
+[submodule "libs/ui-library"]
+	path = libs/ui-library
+	url = https://github.com/DerOli82/ui-library
+[submodule "libs/common-library"]
+	path = libs/common-library
+	url = https://github.com/DerOli82/common-library
