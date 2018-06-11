@@ -73,8 +73,6 @@ dependencies {
 }
 
 shadowJar {
-    relocate "org.json", "libs.org.json"
-    relocate "org.apache", "libs.org.apache"
     relocate "com.mashape", "libs.com.mashape"
     relocate "de.alaoli.games.minecraft.mods.lib", "libs.de.alaoli.games.minecraft.mods.lib"
     
