@@ -36,6 +36,7 @@ import de.alaoli.games.minecraft.mods.modpackutils.common.data.github.Issue;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
+import org.lwjgl.input.Keyboard;
 
 /**
  * @author DerOli82 <https://github.com/DerOli82>
@@ -241,7 +242,7 @@ public class BugreportScreen extends Screen implements MouseListener, KeyboardLi
 		{
 			ScreenManager.hide();
 		}
-		else if( event.getSrcComponent() == this.buttonSend )
+		else if( event.getSrcComponent() == this.buttonSend && !this.buttonSend.isDisabled() )
 		{
 			this.sendIssue();
 			ScreenManager.hide();
@@ -259,5 +260,16 @@ public class BugreportScreen extends Screen implements MouseListener, KeyboardLi
 		{
 			this.validate();
 		}
+
+        if( this.buttonSend.isFocused() && !this.buttonSend.isDisabled() && event.getEventKey() == Keyboard.KEY_RETURN )
+        {
+            this.sendIssue();
+            ScreenManager.hide();
+        }
+
+        if( this.buttonCancel.isFocused() && event.getEventKey() == Keyboard.KEY_RETURN )
+        {
+            ScreenManager.hide();
+        }
 	}
 }
