@@ -1,4 +1,4 @@
 include ":common-library"
 include ":ui-library"
-project( ":common-library" ).projectDir = new File( settingsDir, "libs/common-library" )
-project( ":ui-library" ).projectDir = new File( settingsDir, "libs/ui-library" )
+project( ":common-library" ).projectDir = new File( settingsDir, "libraries/common-library" )
+project( ":ui-library" ).projectDir = new File( settingsDir, "libraries/ui-library" )

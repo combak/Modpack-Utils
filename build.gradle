@@ -28,7 +28,7 @@ buildscript {
     }
     dependencies {
         classpath "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT"
-        classpath "com.github.jengelman.gradle.plugins:shadow:2.0.1"
+        classpath "com.github.jengelman.gradle.plugins:shadow:2.0.4"
         classpath "org.ajoberstar:gradle-git:1.6.0"
     }
 }
@@ -64,6 +64,8 @@ compileJava {
     sourceCompatibility = targetCompatibility = "1.8"
 }
 
+
+
 dependencies {
     compile project( ":ui-library" )
     compile project( ":common-library" )
@@ -75,6 +77,8 @@ shadowJar {
     relocate "org.apache", "libs.org.apache"
     relocate "com.mashape", "libs.com.mashape"
     relocate "de.alaoli.games.minecraft.mods.lib", "libs.de.alaoli.games.minecraft.mods.lib"
+    
+    classifier "all"
 }
 
 minecraft {
@@ -99,6 +103,7 @@ processResources {
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude "mcmod.info"
+        exclude "log4j2.xml"
     }
 }
 
