@@ -170,12 +170,12 @@ public class BugreportScreen extends Screen implements MouseListener, KeyboardLi
 
 		this.buttonSend = Components.buildButton()
 			.withText( Const.Lang.Bugreport.SEND )
-			.withRegion().withBounds( 0,0, 100, 15 ).done()
+			.withRegion().withBounds( 0,0, 200, 20 ).done()
 		.build();
 
 		this.buttonCancel = Components.buildButton()
 			.withText( Const.Lang.Bugreport.CANCEL )
-			.withRegion().withBounds( 0,0, 100, 15 ).done()
+			.withRegion().withBounds( 0,0, 200, 20 ).done()
 		.build();
 
 		this.pane = Components.buildPane().build();
@@ -220,7 +220,7 @@ public class BugreportScreen extends Screen implements MouseListener, KeyboardLi
 		this.textFieldName.setRegion( this.textFieldName.getRegion().toBuilder().withWidth( fieldWidth ).build() );
 		this.textAreaDesc.setRegion( this.textAreaDesc.getRegion().toBuilder().withWidth( fieldWidth ).build() );
 
-		this.buttonSend.setRegion( this.buttonSend.getRegion().toBuilder().withPosition( centerX - 105, height - 30 ).build() );
+		this.buttonSend.setRegion( this.buttonSend.getRegion().toBuilder().withPosition( centerX - 205, height - 30 ).build() );
 		this.buttonCancel.setRegion( this.buttonCancel.getRegion().toBuilder().withPosition( centerX + 5, height - 30 ).build() );
 	}
 
