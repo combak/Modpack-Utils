@@ -1,7 +1,7 @@
 /* *************************************************************************************************************
- * Copyright (c) 2017 DerOli82 <https://github.com/DerOli82>
+ * Copyright (c) 2017 - 2018 DerOli82 <https://github.com/DerOli82>
  *
- * This program is free software: you can redistribute it and/or toBuilder
+ * This program is free software: you can redistribute it and/or copy
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  *
- * You should have received a toBuilder of the GNU Lesser General Public License
+ * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see:
  *
  * https://www.gnu.org/licenses/lgpl-3.0.html
@@ -29,6 +29,7 @@ import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.List;
@@ -41,6 +42,12 @@ public abstract class MenuEventHandler
 	/* **************************************************************************************************************
 	 * Method
 	 ************************************************************************************************************** */
+
+	public static void register()
+    {
+        if( Settings.menu.mainEnabled ) { Main.register(); }
+        if( Settings.menu.ingameEnabled ) { Game.register(); }
+    }
 
     private static GuiButton initChangelogButton(List<GuiButton> buttons)
     {
@@ -102,20 +109,132 @@ public abstract class MenuEventHandler
             {
                 if( button.id == Settings.menu.changelogButtonId )
                 {
-                    //Minecraft.getMinecraft().displayGuiScreen( new ChangelogScreen() );
-                    //ScreenManager.show( new ChangelogScreen() );
                     ScreenManager.show( ChangelogScreen.class );
                 }
                 else if( button.id == Settings.menu.bugreportButtonId )
                 {
-                    //Minecraft.getMinecraft().displayGuiScreen( new BugreportScreen() );
-                    //ScreenManager.show( new BugreportScreen() );
                     ScreenManager.show( BugreportScreen.class );
                 }
             }
             catch( InstantiationException | IllegalAccessException e )
             {
                 e.printStackTrace();
+            }
+        }
+    }
+
+    /* **************************************************************************************************************
+     * Subclass - MainMenu
+     ************************************************************************************************************** */
+
+    private static final class Main extends MenuEventHandler
+    {
+        /* **************************************************************************************************************
+         * Attribute
+         ************************************************************************************************************** */
+
+        private static Main INSTANCE;
+
+        /* **************************************************************************************************************
+         * Method
+         ************************************************************************************************************** */
+
+        private Main() {}
+        public static void register()
+        {
+            if( INSTANCE == null )
+            {
+                INSTANCE = new Main();
+            }
+            MinecraftForge.EVENT_BUS.register( INSTANCE );
+        }
+
+        /* **************************************************************************************************************
+         * Method - MinecraftForge Events
+         ************************************************************************************************************** */
+
+        @SubscribeEvent
+        public void initEvent( GuiScreenEvent.InitGuiEvent event )
+        {
+            GuiScreen screen = event.getGui();
+
+            if( screen instanceof GuiMainMenu )
+            {
+                List<GuiButton> buttons = event.getButtonList();
+
+                if( Settings.changelog.enabled )
+                {
+                    GuiButton changelogButton = getChangelogButton( buttons );
+
+                    changelogButton.x = screen.width / 2 - 202;
+                    changelogButton.y = screen.height / 4 + 96;
+                }
+
+                if( Settings.isBugreportEnabled() )
+                {
+                    GuiButton bugreportButton = getBugreportButton( buttons );
+
+                    bugreportButton.x = screen.width / 2 + 104;
+                    bugreportButton.y = screen.height / 4 + 96;
+                }
+            }
+        }
+    }
+
+    /* **************************************************************************************************************
+     * Subclass - GameMenu
+     ************************************************************************************************************** */
+
+    private static final class Game extends MenuEventHandler
+    {
+        /* **************************************************************************************************************
+         * Attribute
+         ************************************************************************************************************** */
+
+        private static Game INSTANCE;
+
+        /* **************************************************************************************************************
+         * Method
+         ************************************************************************************************************** */
+
+        private Game() {}
+        public static void register()
+        {
+            if( INSTANCE == null )
+            {
+                INSTANCE = new Game();
+            }
+            MinecraftForge.EVENT_BUS.register( INSTANCE );
+        }
+
+        /* **************************************************************************************************************
+         * Method - MinecraftForge Events
+         ************************************************************************************************************** */
+
+        @SubscribeEvent
+        public void initEvent( GuiScreenEvent.InitGuiEvent event )
+        {
+            GuiScreen screen = event.getGui();
+
+            if( screen instanceof GuiIngameMenu )
+            {
+                List<GuiButton> buttons = event.getButtonList();
+
+                if( Settings.changelog.enabled )
+                {
+                    GuiButton changelogButton = getChangelogButton( buttons );
+
+                    changelogButton.x = screen.width / 2 - 202;
+                    changelogButton.y = screen.height / 4 + 80;
+                }
+
+                if( Settings.isBugreportEnabled() )
+                {
+                    GuiButton bugreportButton = getBugreportButton( buttons );
+
+                    bugreportButton.x = screen.width / 2 + 104;
+                    bugreportButton.y = screen.height / 4 + 80;
+                }
             }
         }
     }
