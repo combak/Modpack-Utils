@@ -1,7 +1,7 @@
 /* *************************************************************************************************************
  * Copyright (c) 2017 - 2018 DerOli82 <https://github.com/DerOli82>
  *
- * This program is free software: you can redistribute it and/or toBuilder
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -11,14 +11,12 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  *
- * You should have received a toBuilder of the GNU Lesser General Public License
+ * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see:
  *
  * https://www.gnu.org/licenses/lgpl-3.0.html
  ************************************************************************************************************* */
 package de.alaoli.games.minecraft.mods.modpackutils.client.ui;
-
-import java.util.Optional;
 
 import de.alaoli.games.minecraft.mods.lib.ui.component.*;
 import de.alaoli.games.minecraft.mods.lib.ui.event.KeyboardEvent;
@@ -29,12 +27,10 @@ import de.alaoli.games.minecraft.mods.lib.ui.screen.Screen;
 import de.alaoli.games.minecraft.mods.lib.ui.screen.ScreenManager;
 import de.alaoli.games.minecraft.mods.lib.ui.state.State;
 import de.alaoli.games.minecraft.mods.lib.ui.util.Align;
-import de.alaoli.games.minecraft.mods.lib.ui.util.Color;
 import de.alaoli.games.minecraft.mods.modpackutils.Const;
-import de.alaoli.games.minecraft.mods.modpackutils.client.event.webservices.SendIssueEvent;
+import de.alaoli.games.minecraft.mods.modpackutils.client.event.webservices.IssueEvent;
 import de.alaoli.games.minecraft.mods.modpackutils.common.data.github.Issue;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.input.Keyboard;
 
@@ -46,9 +42,6 @@ public class BugreportScreen extends Screen implements MouseListener, KeyboardLi
 	/* **************************************************************************************************************
 	 * Attribute 
 	 ************************************************************************************************************** */
-	
-	private EntityPlayer player;
-	private Issue issue;
 
 	private Pane pane;
 
@@ -67,38 +60,7 @@ public class BugreportScreen extends Screen implements MouseListener, KeyboardLi
 
 	private String getPlayerName()
 	{
-		if( this.player != null )
-		{
-			return this.player.getDisplayNameString();
-		}
-		else
-		{
-			return Minecraft.getMinecraft().getSession().getUsername();
-		}
-	}
-
-	public Optional<EntityPlayer> getPlayer()
-	{
-		return Optional.ofNullable( this.player );
-	}
-
-	public BugreportScreen setPlayer( EntityPlayer player )
-	{
-		this.player = player;
-		
-		return this;
-	}
-
-	public Optional<Issue> getIssue()
-	{
-		return Optional.ofNullable( this.issue );
-	}
-	
-	public BugreportScreen setIssue( Issue issue )
-	{
-		this.issue = issue;
-		
-		return this;
+		return Minecraft.getMinecraft().getSession().getUsername();
 	}
 
 	private void validate()
@@ -122,7 +84,7 @@ public class BugreportScreen extends Screen implements MouseListener, KeyboardLi
 			this.textFieldTitle.getText().toString(),
 			this.textAreaDesc.getText().toString()
 		);
-		MinecraftForge.EVENT_BUS.post( new SendIssueEvent( this.player, issue ) );
+		MinecraftForge.EVENT_BUS.post( new IssueEvent.Send( issue ) );
 	}
 
 	/* **************************************************************************************************************

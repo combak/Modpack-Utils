@@ -1,3 +1,21 @@
+/* *************************************************************************************************************
+ * Copyright (c) 2017 - 2018 DerOli82 <https://github.com/DerOli82>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see:
+ *
+ * https://www.gnu.org/licenses/lgpl-3.0.html
+ ************************************************************************************************************* */
 package de.alaoli.games.minecraft.mods.modpackutils.client.event.webservices;
 
 import java.util.concurrent.Future;
@@ -10,63 +28,48 @@ import com.mashape.unirest.http.Unirest;
 
 import de.alaoli.games.minecraft.mods.modpackutils.client.network.github.IssueCallback;
 import de.alaoli.games.minecraft.mods.modpackutils.common.config.Settings;
-import de.alaoli.games.minecraft.mods.modpackutils.common.data.github.Issue;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class GithubEventHandler
+public final class GithubEventHandler
 {
-	/********************************************************************************
-	 * Attributes
-	 ********************************************************************************/
-	
-	private static class LazyHolder
-	{
-		private static final GithubEventHandler INSTANCE = new GithubEventHandler();
-	}
-	private Issue pendingIssue;
-	
-	/********************************************************************************
+	/* **************************************************************************************************************
+	 * Attribute
+	 ************************************************************************************************************** */
+
+	private static GithubEventHandler INSTANCE;
+
+	/* **************************************************************************************************************
 	 * Method
-	 ********************************************************************************/
+	 ************************************************************************************************************** */
 	
 	private GithubEventHandler() {}
+
 	public static void register()
 	{
-		MinecraftForge.EVENT_BUS.register( LazyHolder.INSTANCE );
+		if( INSTANCE == null )
+		{
+			INSTANCE = new GithubEventHandler();
+		}
+		MinecraftForge.EVENT_BUS.register( INSTANCE );
 	}
-	
-	/********************************************************************************
+
+	/* **************************************************************************************************************
 	 * Method - MinecraftForge Events
-	 ********************************************************************************/
-	
+	 ************************************************************************************************************** */
+
 	@SubscribeEvent
-	public void onIssueCallback( IssueCallbackEvent event )
+	public void onIssueEventCallback( IssueEvent.Callback event )
 	{
-		switch( event.callback.getState() )
+		/*
+		 * @TODO Handle events
+		 */
+		switch( event.getCallback().getState() )
 		{
 			case IssueCallback.STATE_COMPLETE :
-				HttpResponse<JsonNode> response = event.callback.getResponse();
-				
-				if( response.getStatus() == 201 )
-				{
-					this.pendingIssue = null;
-				}
-				else
-				{
-					if( event.callback.player != null )
-					{
-						event.callback.player.sendMessage(new TextComponentString(event.callback.getResponse().getStatusText()));
-					}
-				}
 				break;
 				
 			case IssueCallback.STATE_FAILED :
-				if( event.callback.player != null )
-				{
-					event.callback.player.sendMessage(new TextComponentString(event.callback.getException().getMessage()));
-				}
 				break;
 				
 			case IssueCallback.STATE_CANCELLED :
@@ -75,15 +78,14 @@ public class GithubEventHandler
 	}
 	
 	@SubscribeEvent
-	public void onSendIssueEvent( SendIssueEvent event )
+	public void onIssueEventSend( IssueEvent.Send event )
 	{
-		this.pendingIssue = event.issue;
 		Gson gson = new GsonBuilder().create();
 
 		Future<HttpResponse<JsonNode>> response = Unirest.post(Settings.webservices.url + "/issue" )
 			.header( "Accept", "application/json" )
 			.header( "Content-Type", "application/json" )
-			.body( gson.toJson( event.issue ) )
-			.asJsonAsync( new IssueCallback( event.player, event.issue ) );
+			.body( gson.toJson( event.getIssue() ) )
+			.asJsonAsync( new IssueCallback( event.getIssue() ) );
 	}
 }

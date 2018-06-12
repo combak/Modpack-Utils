@@ -1,7 +1,7 @@
 /* *************************************************************************************************************
- * Copyright (c) 2017 DerOli82 <https://github.com/DerOli82>
+ * Copyright (c) 2017 - 2018 DerOli82 <https://github.com/DerOli82>
  *
- * This program is free software: you can redistribute it and/or toBuilder
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -11,11 +11,11 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  *
- * You should have received a toBuilder of the GNU Lesser General Public License
+ * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see:
  *
  * https://www.gnu.org/licenses/lgpl-3.0.html
- ************************************************************************************************************ */
+ ************************************************************************************************************* */
 package de.alaoli.games.minecraft.mods.modpackutils.client.ui;
 
 import java.io.IOException;
@@ -26,12 +26,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import de.alaoli.games.minecraft.mods.lib.ui.component.Components;
-import de.alaoli.games.minecraft.mods.lib.ui.component.Label;
 import de.alaoli.games.minecraft.mods.lib.ui.component.ListText;
-import de.alaoli.games.minecraft.mods.lib.ui.component.Pane;
 import de.alaoli.games.minecraft.mods.lib.ui.screen.Screen;
-import de.alaoli.games.minecraft.mods.lib.ui.state.State;
-import de.alaoli.games.minecraft.mods.lib.ui.util.Align;
 import de.alaoli.games.minecraft.mods.modpackutils.Const;
 import de.alaoli.games.minecraft.mods.modpackutils.common.config.Settings;
 import jline.internal.Log;
@@ -46,10 +42,7 @@ public class ChangelogScreen extends Screen//extends Screen
 	 * Attribute 
 	 ************************************************************************************************************** */
 
-	private Pane pane;
 	private ListText listChangelog;
-
-	private Label labelHeadTitle;
 
 	/* **************************************************************************************************************
 	 * Method

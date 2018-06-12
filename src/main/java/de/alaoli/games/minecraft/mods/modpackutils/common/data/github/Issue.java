@@ -1,9 +1,34 @@
+/* *************************************************************************************************************
+ * Copyright (c) 2017 - 2018 DerOli82 <https://github.com/DerOli82>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see:
+ *
+ * https://www.gnu.org/licenses/lgpl-3.0.html
+ ************************************************************************************************************* */
 package de.alaoli.games.minecraft.mods.modpackutils.common.data.github;
 
 import com.google.gson.annotations.Expose;
 import de.alaoli.games.minecraft.mods.modpackutils.common.config.Settings;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-public class Issue
+/**
+ * @author DerOli82 <https://github.com/DerOli82>
+ */
+@Getter
+@AllArgsConstructor
+public final class Issue
 {
 	/* **************************************************************************************************************
 	 * Attribute
@@ -12,7 +37,7 @@ public class Issue
 	/**
 	 * The token of the related repository.
 	 */
-	@Expose( deserialize = false )
+    @Expose( deserialize = false )
 	private final String repository = Settings.webservices.github.repository;
 	
 	/**
@@ -32,35 +57,4 @@ public class Issue
 	 */
 	@Expose( deserialize = false )
 	private final String description;
-
-	/* **************************************************************************************************************
-	 * Method
-	 ************************************************************************************************************** */
-
-	public Issue( String name, String title, String description )
-	{
-		this.name = name;
-		this.title = title;
-		this.description = description;
-	}
-
-	public String getRepository()
-	{
-		return this.repository;
-	}
-
-	public String getName()
-	{
-		return this.name;
-	}
-
-	public String getTitle()
-	{
-		return this.title;
-	}
-
-	public String getDescription()
-	{
-		return this.description;
-	}
 }

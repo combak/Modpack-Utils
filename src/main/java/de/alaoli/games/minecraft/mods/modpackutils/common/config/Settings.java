@@ -1,7 +1,7 @@
 /* *************************************************************************************************************
- * Copyright (c) 2018 DerOli82 <https://github.com/DerOli82>
+ * Copyright (c) 2017 - 2018 DerOli82 <https://github.com/DerOli82>
  *
- * This program is free software: you can redistribute it and/or toBuilder
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -11,7 +11,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  *
- * You should have received a toBuilder of the GNU Lesser General Public License
+ * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see:
  *
  * https://www.gnu.org/licenses/lgpl-3.0.html
@@ -48,7 +48,7 @@ public final class Settings
     public static Webservices webservices = new Webservices();
 
     /* **************************************************************************************************************
-     * Inner classes
+     * Subclass - Menu
      ************************************************************************************************************** */
 
     public static class Menu
@@ -74,6 +74,10 @@ public final class Settings
         public int bugreportButtonId = 1001;
     }
 
+    /* **************************************************************************************************************
+     * Subclass - Command
+     ************************************************************************************************************** */
+
     public static class Command
     {
         @Config.RequiresMcRestart
@@ -81,6 +85,10 @@ public final class Settings
         @Config.Comment( "Only change the command name, if there're any conflict." )
         public String name = "mpu";
     }
+
+    /* **************************************************************************************************************
+     * Subclass - Changelog
+     ************************************************************************************************************** */
 
     public static class Changelog
     {
@@ -97,12 +105,16 @@ public final class Settings
         public String file = "CHANGELOG.md";
     }
 
+    /* **************************************************************************************************************
+     * Subclass - Webservices
+     ************************************************************************************************************** */
+
     public static class Webservices
     {
         @Config.RequiresMcRestart
         @Config.LangKey( Const.Lang.ENABLED )
         @Config.Comment( "Enables webservice function, requires modpack-webservice server as backend." )
-        public  boolean enabled = false;
+        public boolean enabled = false;
 
         @Config.LangKey( Const.Lang.CONFIG_WEBSERVICES_URL )
         @Config.Comment( "Webservice server URL." )
@@ -110,6 +122,10 @@ public final class Settings
 
         @Config.LangKey( Const.Lang.CONFIG_WEBSERVICES_GITHUB )
         public Github github = new Github();
+
+        /* **************************************************************************************************************
+         * Subclass - Github
+         ************************************************************************************************************** */
 
         public static class Github
         {
@@ -123,6 +139,10 @@ public final class Settings
             public String repository = "";
         }
     }
+
+    /* **************************************************************************************************************
+     * Subclass - Sync
+     ************************************************************************************************************** */
 
     @Mod.EventBusSubscriber( modid = Const.Mod.ID )
     public static class SyncHandler

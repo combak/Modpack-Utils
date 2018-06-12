@@ -1,0 +1,17 @@
+modpackutils:gui.changelog=Änderungsprotokoll
+modpackutils:gui.changelog.notfound=Änderungsprotokoll nicht gefunden
+modpackutils:gui.changelog.isempty=Änderungsprotokoll ist leer
+
+modpackutils:gui.bugreport=Fehlerbericht
+
+modpackutils:gui.bugreport.name.label=Name:
+modpackutils:gui.bugreport.name.placeholder=<Spielername eingeben>
+
+modpackutils:gui.bugreport.title.label=Title:
+modpackutils:gui.bugreport.title.placeholder=<Was ist dein Problem?>
+
+modpackutils:gui.bugreport.desc.label=Beschreibung:
+modpackutils:gui.bugreport.desc.placeholder=<Wie trat das Problem auf?>
+
+modpackutils:gui.bugreport.send=Abschicken
+modpackutils:gui.bugreport.cancel=Abbrechen

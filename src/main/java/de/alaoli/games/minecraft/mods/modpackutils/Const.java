@@ -1,7 +1,7 @@
 /* *************************************************************************************************************
- * Copyright (c) 2018 DerOli82 <https://github.com/DerOli82>
+ * Copyright (c) 2017 - 2018 DerOli82 <https://github.com/DerOli82>
  *
- * This program is free software: you can redistribute it and/or toBuilder
+ * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
@@ -11,20 +11,22 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  *
- * You should have received a toBuilder of the GNU Lesser General Public License
+ * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see:
  *
  * https://www.gnu.org/licenses/lgpl-3.0.html
  ************************************************************************************************************* */
 package de.alaoli.games.minecraft.mods.modpackutils;
 
-import net.minecraftforge.fml.common.Mod;
-
 /**
  * @author DerOli82 <https://github.com/DerOli82>
  */
 public final class Const
 {
+    /* **************************************************************************************************************
+     * Subclass - Mod
+     ************************************************************************************************************** */
+
     public static final class Mod
     {
         public static final String ID = "modpackutils";
@@ -36,6 +38,10 @@ public final class Const
 
         private Mod() {}
     }
+
+    /* **************************************************************************************************************
+     * Subclass - Lang
+     ************************************************************************************************************** */
 
     public static final class Lang
     {
@@ -59,6 +65,10 @@ public final class Const
         public static final String CONFIG_WEBSERVICES_GITHUB = "modpackutils:gui.config.webservices.github";
         public static final String CONFIG_WEBSERVICES_GITHUB_REPO = "modpackutils:gui.config.webservices.github.repo";
 
+        /* **************************************************************************************************************
+         * Subclass - Bugreport
+         ************************************************************************************************************** */
+
         public static final class Bugreport
         {
             public static final String NAME_LABEL = "modpackutils:gui.bugreport.name.label";
@@ -75,6 +85,10 @@ public final class Const
 
             private Bugreport() {}
         }
+
+        /* **************************************************************************************************************
+         * Subclass - Changelog
+         ************************************************************************************************************** */
 
         public static final class Changelog
         {
