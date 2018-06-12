@@ -1,5 +1,5 @@
 /* *************************************************************************************************************
- * Copyright (c) 2017 DerOli82 <https://github.com/DerOli82>
+ * Copyright (c) 2017 - 2018 DerOli82 <https://github.com/DerOli82>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -16,7 +16,6 @@
  *
  * https://www.gnu.org/licenses/lgpl-3.0.html
  ************************************************************************************************************ */
- 
 buildscript {
     repositories {
         jcenter()
@@ -28,13 +27,15 @@ buildscript {
     }
     dependencies {
         classpath "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT"
-        classpath "com.github.jengelman.gradle.plugins:shadow:2.0.4"
-        classpath "org.ajoberstar:gradle-git:1.6.0"
     }
 }
-apply plugin: "org.ajoberstar.grgit"
+
+plugins {
+    id "io.franzbecker.gradle-lombok" version "1.14"
+    id "com.github.johnrengelman.shadow" version "2.0.4"
+    id "org.ajoberstar.grgit" version "1.6.0"
+}
 apply plugin: "net.minecraftforge.gradle.forge"
-apply plugin: "com.github.johnrengelman.shadow"
 
 //Load properties
 file "build.properties" withReader {
@@ -63,8 +64,6 @@ sourceCompatibility = targetCompatibility = "1.8"
 compileJava {
     sourceCompatibility = targetCompatibility = "1.8"
 }
-
-
 
 dependencies {
     compile project( ":ui-library" )
