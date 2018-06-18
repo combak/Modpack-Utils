@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 0.2.2
+
+### common
+- Implement Project Lombok
+- Code cleanup
+
 ## Version 0.2.1
 
 ### common
