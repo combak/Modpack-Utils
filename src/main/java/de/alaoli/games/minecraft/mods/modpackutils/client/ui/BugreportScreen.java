@@ -243,6 +243,7 @@ public class BugreportScreen extends Screen implements MouseListener, KeyboardLi
         if( this.buttonSend.isFocused() && !this.buttonSend.isDisabled() && event.getEventKey() == Keyboard.KEY_RETURN )
         {
             this.sendIssue();
+            this.buttonSend.setDisable( true );
             ScreenManager.hide();
         }
 
