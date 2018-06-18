@@ -26,7 +26,9 @@ import de.alaoli.games.minecraft.mods.lib.ui.event.MouseListener;
 import de.alaoli.games.minecraft.mods.lib.ui.screen.Screen;
 import de.alaoli.games.minecraft.mods.lib.ui.screen.ScreenManager;
 import de.alaoli.games.minecraft.mods.lib.ui.state.State;
+import de.alaoli.games.minecraft.mods.lib.ui.style.Styles;
 import de.alaoli.games.minecraft.mods.lib.ui.util.Align;
+import de.alaoli.games.minecraft.mods.lib.ui.util.Color;
 import de.alaoli.games.minecraft.mods.modpackutils.Const;
 import de.alaoli.games.minecraft.mods.modpackutils.client.event.webservices.IssueEvent;
 import de.alaoli.games.minecraft.mods.modpackutils.common.data.github.Issue;
@@ -94,24 +96,37 @@ public class BugreportScreen extends Screen implements MouseListener, KeyboardLi
 	@Override
 	public void create()
 	{
+		if( !isIngame() )
+		{
+			this.setBoxStyle(Styles.newBoxStyleBuilder()
+				.withState(State.NONE)
+					.withBackground()
+						.withColor(1.0f, 64, 64, 64)
+						.withImage("textures/gui/options_background.png", 0, 0, 0.03125F)
+					.done()
+					.withBorder().withColor(Color.Codes.DARKGRAY).done()
+				.done()
+			.build());
+		}
 		this.labelHeadTitle = Components.buildLabel()
 			.withText( Const.Lang.BUGREPORT )
+			.withRegion().withYPosition( 0 ).done()
 			.withTextStyle().withState( State.NONE ).withAlign( Align.CENTER ).withShadow().done().done()
 		.build();
 
 		Label labelName = Components.buildLabel()
 				.withText(Const.Lang.Bugreport.NAME_LABEL)
-				.withRegion().withBounds(10, 30, 100, 15).done()
+				.withRegion().withBounds(10, 30, 100, 15 ).done()
 				.build();
 
 		Label labelTitle = Components.buildLabel()
 				.withText(Const.Lang.Bugreport.TITLE_LABEL)
-				.withRegion().withBounds(10, 50, 100, 15).done()
+				.withRegion().withBounds(10, 50, 100, 15 ).done()
 				.build();
 
 		Label labelDesc = Components.buildLabel()
 				.withText(Const.Lang.Bugreport.DESC_LABEL)
-				.withRegion().withBounds(10, 70, 100, 15).done()
+				.withRegion().withBounds(10, 70, 100, 15 ).done()
 				.build();
 
 		this.textFieldName = Components.buildTextField()
@@ -133,12 +148,12 @@ public class BugreportScreen extends Screen implements MouseListener, KeyboardLi
 
 		this.buttonSend = Components.buildButton()
 			.withText( Const.Lang.Bugreport.SEND )
-			.withRegion().withBounds( 0,0, 200, 20 ).done()
+			.withRegion().withBounds( 0,0, 100, 20 ).done()
 		.build();
 
 		this.buttonCancel = Components.buildButton()
 			.withText( Const.Lang.Bugreport.CANCEL )
-			.withRegion().withBounds( 0,0, 200, 20 ).done()
+			.withRegion().withBounds( 0,0, 100, 20 ).done()
 		.build();
 
 		this.pane = Components.buildPane().build();
@@ -174,17 +189,19 @@ public class BugreportScreen extends Screen implements MouseListener, KeyboardLi
 	public void resize( int width, int height )
 	{
 		int fieldWidth = width-185,
-			centerX = width/2;
+			spacing = 20,
+			centerX = (width-2*spacing)/2;
 
-		this.pane.setRegion( this.getRegion() );
-		this.labelHeadTitle.setRegion( this.getRegion().toBuilder().withDimensions( width, 15 ).build() );
+		this.pane.setRegion( this.getRegion().toBuilder().withBounds( spacing, spacing, width-2*spacing, height-2*spacing ).build() );
+
+		this.labelHeadTitle.setRegion( this.labelHeadTitle.getRegion().toBuilder().withDimensions( width, 15 ).build() );
 
 		this.textFieldTitle.setRegion( this.textFieldTitle.getRegion().toBuilder().withWidth( fieldWidth ).build() );
 		this.textFieldName.setRegion( this.textFieldName.getRegion().toBuilder().withWidth( fieldWidth ).build() );
 		this.textAreaDesc.setRegion( this.textAreaDesc.getRegion().toBuilder().withWidth( fieldWidth ).build() );
 
-		this.buttonSend.setRegion( this.buttonSend.getRegion().toBuilder().withPosition( centerX - 205, height - 30 ).build() );
-		this.buttonCancel.setRegion( this.buttonCancel.getRegion().toBuilder().withPosition( centerX + 5, height - 30 ).build() );
+		this.buttonSend.setRegion( this.buttonSend.getRegion().toBuilder().withPosition( centerX - 105, height - 65 ).build() );
+		this.buttonCancel.setRegion( this.buttonCancel.getRegion().toBuilder().withPosition( centerX + 5, height - 65 ).build() );
 	}
 
 	@Override
@@ -200,11 +217,11 @@ public class BugreportScreen extends Screen implements MouseListener, KeyboardLi
 	@Override
 	public void onMouseClick( MouseEvent.Click event )
 	{
-		if( event.getSrcComponent() == this.buttonCancel )
+		if( event.getSrc() == this.buttonCancel )
 		{
 			ScreenManager.hide();
 		}
-		else if( event.getSrcComponent() == this.buttonSend && !this.buttonSend.isDisabled() )
+		else if( event.getSrc() == this.buttonSend && !this.buttonSend.isDisabled() )
 		{
 			this.sendIssue();
 			ScreenManager.hide();
