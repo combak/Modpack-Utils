@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 0.2.3
+
+### bugfixes
+- Fix send issue twice
+- Fix crash on send
+
 ## Version 0.2.2
 
 ### common

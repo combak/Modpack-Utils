@@ -31,7 +31,7 @@ public final class Const
     {
         public static final String ID = "modpackutils";
         public static final String NAME = "ComBak Modpack Utils";
-        public static final String VERSION = "0.2.2";
+        public static final String VERSION = "0.2.3";
 
         public static final String PROXY_COMMON = "de.alaoli.games.minecraft.mods.modpackutils.common.CommonProxy";
         public static final String PROXY_CLIENT = "de.alaoli.games.minecraft.mods.modpackutils.client.ClientProxy";
